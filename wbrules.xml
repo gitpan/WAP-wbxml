@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
 <!DOCTYPE wbxml:wbxml [
-  <!ELEMENT wbxml:wbxml (wbxml:CharacterSets,wbxml:PublicIdentifiers,wbxml:App+)>
+  <!ELEMENT wbxml:wbxml (wbxml:PublicIdentifiers,wbxml:App+)>
   <!ATTLIST wbxml:wbxml version NMTOKEN #REQUIRED>
-  <!ELEMENT wbxml:CharacterSets (wbxml:CharacterSet)*>
-  <!ELEMENT wbxml:CharacterSet EMPTY>
-  <!ATTLIST wbxml:CharacterSet MIBenum NMTOKEN #REQUIRED>
-  <!ATTLIST wbxml:CharacterSet name NMTOKEN #REQUIRED>
   <!ELEMENT wbxml:PublicIdentifiers (wbxml:PublicIdentifier)*>
   <!ELEMENT wbxml:PublicIdentifier EMPTY>
   <!ATTLIST wbxml:PublicIdentifier value NMTOKEN #REQUIRED>
@@ -48,33 +44,14 @@
   <!ENTITY gt ">">
 ]>
 <wbxml:wbxml version="1.3">
-  <!--  see: Binary XML Content Format, Version 1.3, 25 July 2001 -->
-  <!--       Wireless Application Protocol : WAP-192-WBXML-20010725-a -->
-  <wbxml:CharacterSets>
-    <!-- see: section 5.2 "Character Encoding" in WBXML 1.3 -->
-    <!-- MIBenum="0" Unknown encoding -->
-    <!-- see:  ftp://ftp.isi.edu/in-notes/iana/assignments/character-sets -->
-    <wbxml:CharacterSet MIBenum="3" name="US-ASCII"/>
-    <wbxml:CharacterSet MIBenum="4" name="ISO-8859-1"/>
-    <wbxml:CharacterSet MIBenum="5" name="ISO-8859-2"/>
-    <wbxml:CharacterSet MIBenum="6" name="ISO-8859-3"/>
-    <wbxml:CharacterSet MIBenum="7" name="ISO-8859-4"/>
-    <wbxml:CharacterSet MIBenum="8" name="ISO-8859-5"/>
-    <wbxml:CharacterSet MIBenum="9" name="ISO-8859-6"/>
-    <wbxml:CharacterSet MIBenum="10" name="ISO-8859-7"/>
-    <wbxml:CharacterSet MIBenum="11" name="ISO-8859-8"/>
-    <wbxml:CharacterSet MIBenum="12" name="ISO-8859-9"/>
-    <wbxml:CharacterSet MIBenum="17" name="Shift_JIS"/>
-    <wbxml:CharacterSet MIBenum="106" name="UTF-8"/>
-    <wbxml:CharacterSet MIBenum="1000" name="ISO-10646-UCS-2"/>
-    <wbxml:CharacterSet MIBenum="2026" name="Big5"/>
-  </wbxml:CharacterSets>
+  <!--  see: Binary XML Content Format, Version 1.3 -->
+  <!--       WAP-192-WBXML-20010725-a -->
   <wbxml:PublicIdentifiers>
     <!-- see: section 7.2 "Public Identifiers" in WBXML 1.3 -->
     <!-- value="1"  Unknown or missing public identifier -->
     <!-- if no value, publicid is encoding as string -->
     <wbxml:PublicIdentifier value="2" name="-//WAPFORUM//DTD WML 1.0//EN"/>
-    <!--   DEPRECATED           value="3"   name="-//WAPFORUM//DTD WTA 1.0//EN" -->
+    <!--   DEPRECATED       value="3" name="-//WAPFORUM//DTD WTA 1.0//EN" -->
     <wbxml:PublicIdentifier value="4" name="-//WAPFORUM//DTD WML 1.1//EN"/>
     <wbxml:PublicIdentifier value="5" name="-//WAPFORUM//DTD SI 1.0//EN"/>
     <wbxml:PublicIdentifier value="6" name="-//WAPFORUM//DTD SL 1.0//EN"/>
@@ -85,10 +62,11 @@
     <wbxml:PublicIdentifier value="B" name="-//WAPFORUM//DTD PROV 1.0//EN"/>
     <wbxml:PublicIdentifier value="C" name="-//WAPFORUM//DTD WTA-WML 1.2//EN"/>
     <wbxml:PublicIdentifier value="D" name="-//WAPFORUM//DTD CHANNEL 1.2//EN"/>
+    <!--                              name="-//WAPFORUM//DTD PAP 2.O//EN" -->
     <!-- values E-7F : Reserved -->
   </wbxml:PublicIdentifiers>
   <wbxml:App publicid="-//WAPFORUM//DTD SI 1.0//EN" use-default="yes" textual-ext="si" tokenised-ext="sic" xml-space="default">
-    <!-- see: WAP Service Indication, Version 08-Nov-1999 -->
+    <!-- see: Service Indication, WAP-167-ServiceInd-20010731-a -->
     <wbxml:TagTokens>
       <wbxml:TAG token="05" name="si"/>
       <wbxml:TAG token="06" name="indication"/>
@@ -119,7 +97,7 @@
     </wbxml:AttrValueTokens>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD SL 1.0//EN" use-default="yes" textual-ext="sl" tokenised-ext="slc" xml-space="default">
-    <!-- see: WAP Service Loading, Version 08-Nov-1999 -->
+    <!-- see: Service Loading, WAP-168-ServiceLoad-20010731-a -->
     <wbxml:TagTokens>
       <wbxml:TAG token="05" name="sl"/>
     </wbxml:TagTokens>
@@ -141,7 +119,7 @@
     </wbxml:AttrValueTokens>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD CO 1.0//EN" textual-ext="co" tokenised-ext="coc" xml-space="default">
-    <!-- see: WAP Cache Operation, Version 06-Dec-1999 -->
+    <!-- see: Cache Operation, WAP-175-CacheOp-20010731-a -->
     <wbxml:TagTokens>
       <wbxml:TAG token="05" name="co"/>
       <wbxml:TAG token="06" name="invalidate-object"/>
@@ -162,7 +140,8 @@
     </wbxml:AttrValueTokens>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD CHANNEL 1.2//EN" textual-ext="channel" tokenised-ext="channelc" xml-space="default">
-    <!-- see: WAP WTA, Version 07-Jul-2000 -->
+    <!-- see: WAP Wireless Telephony Application -->
+    <!--      WAP-266-WTA-20010711-p -->
     <wbxml:TagTokens>
       <wbxml:TAG token="05" name="channel"/>
       <wbxml:TAG token="06" name="title"/>
@@ -837,9 +816,140 @@
       <wbxml:CharacterEntity code="173" name="shy"/>
     </wbxml:CharacterEntities>
   </wbxml:App>
+  <wbxml:App publicid="-//WAPFORUM//DTD PROV 1.0//EN" textual-ext="connectivity-xml" tokenised-ext="connectivity-wbxml" xml-space="default">
+    <!-- see: Provisioning Content, Version 24-July-2001 -->
+    <!--      WAP-183-ProvCont-20010724-a -->
+    <wbxml:TagTokens>
+      <wbxml:TAG token="05" name="wap-provisioningdoc"/>
+      <wbxml:TAG token="06" name="characteristic"/>
+      <wbxml:TAG token="07" name="parm"/>
+    </wbxml:TagTokens>
+    <wbxml:AttrStartTokens>
+      <wbxml:ATTRSTART token="05" name="name"/>
+      <wbxml:ATTRSTART token="06" name="value"/>
+      <wbxml:ATTRSTART token="07" name="name" value="NAME"/>
+      <wbxml:ATTRSTART token="08" name="name" value="NAP-ADDRESS"/>
+      <wbxml:ATTRSTART token="09" name="name" value="NAP-ADDRTYPE"/>
+      <wbxml:ATTRSTART token="0A" name="name" value="CALLTYPE"/>
+      <wbxml:ATTRSTART token="0B" name="name" value="VALIDUNTIL"/>
+      <wbxml:ATTRSTART token="0C" name="name" value="AUTHTYPE"/>
+      <wbxml:ATTRSTART token="0D" name="name" value="AUTHNAME"/>
+      <wbxml:ATTRSTART token="0E" name="name" value="AUTHSECRET"/>
+      <wbxml:ATTRSTART token="0F" name="name" value="LINGER"/>
+      <wbxml:ATTRSTART token="10" name="name" value="BEARER"/>
+      <wbxml:ATTRSTART token="11" name="name" value="NAPID"/>
+      <wbxml:ATTRSTART token="12" name="name" value="COUNTRY"/>
+      <wbxml:ATTRSTART token="13" name="name" value="NETWORK"/>
+      <wbxml:ATTRSTART token="14" name="name" value="INTERNET"/>
+      <wbxml:ATTRSTART token="15" name="name" value="PROXY-ID"/>
+      <wbxml:ATTRSTART token="16" name="name" value="PROXY-PROVIDER-ID"/>
+      <wbxml:ATTRSTART token="17" name="name" value="DOMAIN"/>
+      <wbxml:ATTRSTART token="18" name="name" value="PROVURL"/>
+      <wbxml:ATTRSTART token="19" name="name" value="PXAUTH-TYPE"/>
+      <wbxml:ATTRSTART token="1A" name="name" value="PXAUTH-ID"/>
+      <wbxml:ATTRSTART token="1B" name="name" value="PXAUTH-PW"/>
+      <wbxml:ATTRSTART token="1C" name="name" value="STARTPAGE"/>
+      <wbxml:ATTRSTART token="1D" name="name" value="BASAUTH-ID"/>
+      <wbxml:ATTRSTART token="1E" name="name" value="BASAUTH-PW"/>
+      <wbxml:ATTRSTART token="1F" name="name" value="PUSHENABLED"/>
+      <wbxml:ATTRSTART token="20" name="name" value="PXADDR"/>
+      <wbxml:ATTRSTART token="21" name="name" value="PXADDRTYPE"/>
+      <wbxml:ATTRSTART token="22" name="name" value="TO-NAPID"/>
+      <wbxml:ATTRSTART token="23" name="name" value="PORTNBR"/>
+      <wbxml:ATTRSTART token="24" name="name" value="SERVICE"/>
+      <wbxml:ATTRSTART token="25" name="name" value="LINKSPEED"/>
+      <wbxml:ATTRSTART token="26" name="name" value="DNLINKSPEED"/>
+      <wbxml:ATTRSTART token="27" name="name" value="LOCAL-ADDR"/>
+      <wbxml:ATTRSTART token="28" name="name" value="LOCAL-ADDRTYPE"/>
+      <wbxml:ATTRSTART token="29" name="name" value="CONTEXT-ALLOW"/>
+      <wbxml:ATTRSTART token="2A" name="name" value="TRUST"/>
+      <wbxml:ATTRSTART token="2B" name="name" value="MASTER"/>
+      <wbxml:ATTRSTART token="2C" name="name" value="SID"/>
+      <wbxml:ATTRSTART token="2D" name="name" value="SOC"/>
+      <wbxml:ATTRSTART token="2E" name="name" value="WSP-VERSION"/>
+      <wbxml:ATTRSTART token="2F" name="name" value="PHYSICAL-PROXY-ID"/>
+      <wbxml:ATTRSTART token="30" name="name" value="CLIENT-ID"/>
+      <wbxml:ATTRSTART token="31" name="name" value="DELIVERY-ERR-SDU"/>
+      <wbxml:ATTRSTART token="32" name="name" value="DELIVERY-ORDER"/>
+      <wbxml:ATTRSTART token="33" name="name" value="TRAFFIC-CLASS"/>
+      <wbxml:ATTRSTART token="34" name="name" value="MAX-SDU-SIZE"/>
+      <wbxml:ATTRSTART token="35" name="name" value="MAX-BITRATE-UPLINK"/>
+      <wbxml:ATTRSTART token="36" name="name" value="MAX-BITRATE-DNLINK"/>
+      <wbxml:ATTRSTART token="37" name="name" value="RESIDUAL-BER"/>
+      <wbxml:ATTRSTART token="38" name="name" value="SDU-ERROR-RATIO"/>
+      <wbxml:ATTRSTART token="39" name="name" value="TRAFFIC-HANDL-PRIO"/>
+      <wbxml:ATTRSTART token="3A" name="name" value="TRANSFER-DELAY"/>
+      <wbxml:ATTRSTART token="3B" name="name" value="GUARANTEED-BITRATE-UPLINK"/>
+      <wbxml:ATTRSTART token="3C" name="name" value="GUARANTEED-BITRATE-DNLINK"/>
+      <wbxml:ATTRSTART token="45" name="version"/>
+      <wbxml:ATTRSTART token="46" name="version" value="1.0"/>
+      <wbxml:ATTRSTART token="50" name="type"/>
+      <wbxml:ATTRSTART token="51" name="type" value="PXLOGICAL"/>
+      <wbxml:ATTRSTART token="52" name="type" value="PXPHYSICAL"/>
+      <wbxml:ATTRSTART token="53" name="type" value="PORT"/>
+      <wbxml:ATTRSTART token="54" name="type" value="VALIDITY"/>
+      <wbxml:ATTRSTART token="55" name="type" value="NAPDEF"/>
+      <wbxml:ATTRSTART token="56" name="type" value="BOOTSTRAP"/>
+      <wbxml:ATTRSTART token="57" name="type" value="VENDORCONFIG"/>
+      <wbxml:ATTRSTART token="58" name="type" value="CLIENTIDENTITY"/>
+      <wbxml:ATTRSTART token="59" name="type" value="PXAUTHINFO"/>
+      <wbxml:ATTRSTART token="5A" name="type" value="NAPAUTHINFO"/>
+    </wbxml:AttrStartTokens>
+    <wbxml:AttrValueTokens>
+      <wbxml:ATTRVALUE token="85" value="IPV4"/>
+      <wbxml:ATTRVALUE token="86" value="IPV6"/>
+      <wbxml:ATTRVALUE token="87" value="E164"/>
+      <wbxml:ATTRVALUE token="88" value="ALPHA"/>
+      <wbxml:ATTRVALUE token="89" value="APN"/>
+      <wbxml:ATTRVALUE token="8A" value="SCODE"/>
+      <wbxml:ATTRVALUE token="8B" value="TETRA-ITSI"/>
+      <wbxml:ATTRVALUE token="8C" value="MAN"/>
+      <wbxml:ATTRVALUE token="90" value="ANALOG-MODEM"/>
+      <wbxml:ATTRVALUE token="91" value="V.120"/>
+      <wbxml:ATTRVALUE token="92" value="V.110"/>
+      <wbxml:ATTRVALUE token="93" value="X.31"/>
+      <wbxml:ATTRVALUE token="94" value="BIT-TRANSPARENT"/>
+      <wbxml:ATTRVALUE token="95" value="DIRECT-ASYNCHRONOUS-DATA-SERVICE"/>
+      <wbxml:ATTRVALUE token="9A" value="PAP"/>
+      <wbxml:ATTRVALUE token="9B" value="CHAP"/>
+      <wbxml:ATTRVALUE token="9C" value="HTTP-BASIC"/>
+      <wbxml:ATTRVALUE token="9D" value="HTTP-DIGEST"/>
+      <wbxml:ATTRVALUE token="9E" value="WTLS-SS"/>
+      <wbxml:ATTRVALUE token="A2" value="GSM-USSD"/>
+      <wbxml:ATTRVALUE token="A3" value="GSM-SMS"/>
+      <wbxml:ATTRVALUE token="A4" value="ANSI-136-GUTS"/>
+      <wbxml:ATTRVALUE token="A5" value="IS-95-CDMA-SMS"/>
+      <wbxml:ATTRVALUE token="A6" value="IS-95-CDMA-CSD"/>
+      <wbxml:ATTRVALUE token="A7" value="IS-95-CDMA-PACKET"/>
+      <wbxml:ATTRVALUE token="A8" value="ANSI-136-CSD"/>
+      <wbxml:ATTRVALUE token="A9" value="ANSI-136-GPRS"/>
+      <wbxml:ATTRVALUE token="AA" value="GSM-CSD"/>
+      <wbxml:ATTRVALUE token="AB" value="GSM-GPRS"/>
+      <wbxml:ATTRVALUE token="AC" value="AMPS-CDPD"/>
+      <wbxml:ATTRVALUE token="AD" value="PDC-CSD"/>
+      <wbxml:ATTRVALUE token="AE" value="PDC-PACKET"/>
+      <wbxml:ATTRVALUE token="AF" value="IDEN-SMS"/>
+      <wbxml:ATTRVALUE token="B0" value="IDEN-CSD"/>
+      <wbxml:ATTRVALUE token="B1" value="IDEN-PACKET"/>
+      <wbxml:ATTRVALUE token="B2" value="FLEX/REFLEX"/>
+      <wbxml:ATTRVALUE token="B3" value="PHS-SMS"/>
+      <wbxml:ATTRVALUE token="B4" value="PHS-CSD"/>
+      <wbxml:ATTRVALUE token="B5" value="TETRA-SDS"/>
+      <wbxml:ATTRVALUE token="B6" value="TETRA-PACKET"/>
+      <wbxml:ATTRVALUE token="B7" value="ANSI-136-GHOST"/>
+      <wbxml:ATTRVALUE token="B8" value="MOBITEX-MPAK"/>
+      <wbxml:ATTRVALUE token="C5" value="AUTOBAUDING"/>
+      <wbxml:ATTRVALUE token="CA" value="CL-WSP"/>
+      <wbxml:ATTRVALUE token="CB" value="CO-WSP"/>
+      <wbxml:ATTRVALUE token="CC" value="CL-SEC-WSP"/>
+      <wbxml:ATTRVALUE token="CD" value="CO-SEC-WSP"/>
+      <wbxml:ATTRVALUE token="CE" value="CL-SEC-WTA"/>
+      <wbxml:ATTRVALUE token="CF" value="CO-SEC-WTA"/>
+    </wbxml:AttrValueTokens>
+  </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD WTA-WML 1.2//EN" use-default="yes" variable-subs="yes" textual-ext="wta-wml" tokenised-ext="wta-wmlc" xml-space="default">
-    <!-- see: WAP WTA, Version 11-Jul-2001 -->
-    <!--      WAP Wireless Telephony Application -->
+    <!-- see: WAP Wireless Telephony Application -->
+    <!--      WAP-266-WTA-20010711-p -->
     <!--  WTA-WML is a superset of WML 1.2 -->
     <wbxml:TagTokens>
       <wbxml:TAG token="1C" name="a"/>

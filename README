@@ -16,7 +16,7 @@ Description:
 
 Prerequisites:
 --------------
-    This module needs Data::Dumper and XML::DOM modules.
+    This module needs Data::Dumper, XML::DOM modules and I18N::Charset.
 
 Build/Installation:
 -------------------

@@ -7,6 +7,7 @@ WriteMakefile(
     'ABSTRACT'      => 'Binarization of XML file used by Wireless Application Protocol',
     'PREREQ_PM'     => {
                         'XML::DOM'      => '1.25',
+                        'I18N::Charset' => '1.15',
                         'Data::Dumper'  => 0,
     },
     'PM'            => {

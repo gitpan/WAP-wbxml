@@ -1,5 +1,9 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.05  Thu Feb 14 20:30:00 2002
+	- use of I18N-Charset
+	- add rules for WAP PROV 1.0
+
 1.04  Wed Jan 23 17:30:00 2002
 	- bug in Makefile.PL
 

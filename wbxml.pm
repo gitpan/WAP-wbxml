@@ -6,7 +6,7 @@ use UNIVERSAL;
 
 package WbXml;
 use vars qw($VERSION);
-$VERSION = '1.04';
+$VERSION = '1.05';
 
 =head1 NAME
 
@@ -36,7 +36,7 @@ The XML input file must refere to a DTD with a public identifier.
 
 The file WAP/wbrules.xml configures this tool for all known DTD.
 
-This module needs Data::Dumper and XML::DOM modules.
+This module needs Data::Dumper, I18N::Charset and XML::DOM modules.
 
 WAP Specifications, including Binary XML Content Format (WBXML)
  are available on E<lt>http://www.wapforum.org/E<gt>.
@@ -46,6 +46,7 @@ WAP Specifications, including Binary XML Content Format (WBXML)
 =cut
 
 use XML::DOM;
+use I18N::Charset;
 
 # Global tokens
 use constant SWITCH_PAGE  	=> 0x00;
@@ -485,11 +486,11 @@ sub compileCharSet {
 	my $self = shift;
 	my ($encoding) = @_;
 	if ($encoding) {
-		$encoding = uc $encoding;
-		if (exists $self->{rules}->{CharacterSets}->{$encoding}) {
-			my $charset = $self->{rules}->{CharacterSets}->{$encoding};
-			$self->putmb('header',$charset);
+		my $mib = charset_name_to_mib($encoding);
+		if (defined $mib) {
+			$self->putmb('header',$mib);
 		} else {
+			warn "unknown encoding.\n";
 			$self->putmb('header',0);	# unknown encoding
 		}
 	} else {
@@ -658,7 +659,7 @@ sub new {
 	$self->{skipDefault} = $use_default eq "yes";
 	$self->{variableSubs} = $variable_subs eq "yes";
 	$self->{textualExt} = $textual_ext || "xml";
-	$self->{tokenisedExt} = $tokenised_ext || "xmlc";
+	$self->{tokenisedExt} = $tokenised_ext || "wbxml";
 	$self->{xmlSpace} = $xml_space || "preserve";
 	$self->{TagTokens} = [];
 	$self->{AttrStartTokens} = [];
@@ -768,7 +769,6 @@ sub new {
 	} else {
 		$self->{version} = 0x03;		# WBXML 1.3 : latest known version
 	}
-	$self->{CharacterSets} = {};
 	$self->{PublicIdentifiers} = {};
 	$self->{App} = {};
 	$self->{DefaultApp} = new WbRulesApp("DEFAULT","","","","","");
@@ -800,26 +800,6 @@ sub visitwbxml {
 			$self->{doc}->visitElement($node,$self);
 		}
 	}
-}
-
-sub visitCharacterSets {
-	my $self = shift;
-	my($parent) = @_;
-	for (my $node = $parent->getFirstChild();
-			$node;
-			$node = $node->getNextSibling()	) {
-		if ($node->getNodeType() == ELEMENT_NODE) {
-			$self->{doc}->visitElement($node,$self);
-		}
-	}
-}
-
-sub visitCharacterSet {
-	my $self = shift;
-	my($node) = @_;
-	my $name = $node->getAttribute("name");
-	my $MIBenum = $node->getAttribute("MIBenum");		# decimal
-	$self->{wbrules}->{CharacterSets}->{$name} = $MIBenum;
 }
 
 sub visitPublicIdentifiers {

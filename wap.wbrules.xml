@@ -843,14 +843,40 @@
   </App>
   <App publicid="-//WAPFORUM//DTD PROV 1.0//EN" textual-ext="connectivity-xml" tokenised-ext="connectivity-wbxml" xml-space="default"
        systemid="http://www.wapforum.org/DTD/prov.dtd">
-    <!-- see: Provisioning Content, Version 24-July-2001 -->
-    <!--      WAP-183-ProvCont-20010724-a -->
+    <!-- see: Provisioning Content Version 1.1, Version 12-Nov-2002 -->
+    <!--      OMA-WAP-ProvCont-v1_1-20021112-C -->
     <TagTokens>
       <TAG token="05" name="wap-provisioningdoc"/>
       <TAG token="06" name="characteristic"/>
       <TAG token="07" name="parm"/>
+      <TAG token="06" codepage="01" name="characteristic"/>
+      <TAG token="07" codepage="01" name="parm"/>
     </TagTokens>
     <AttrStartTokens>
+      <!-- Wap-provisioningdoc -->
+      <ATTRSTART token="45" name="version"/>
+      <ATTRSTART token="46" name="version" value="1.0"/>
+      <!-- Characteristic -->
+      <ATTRSTART token="50" name="type"/>
+      <ATTRSTART token="51" name="type" value="PXLOGICAL"/>
+      <ATTRSTART token="52" name="type" value="PXPHYSICAL"/>
+      <ATTRSTART token="53" name="type" value="PORT"/>
+      <ATTRSTART token="54" name="type" value="VALIDITY"/>
+      <ATTRSTART token="55" name="type" value="NAPDEF"/>
+      <ATTRSTART token="56" name="type" value="BOOTSTRAP"/>
+      <ATTRSTART token="57" name="type" value="VENDORCONFIG"/>
+      <ATTRSTART token="58" name="type" value="CLIENTIDENTITY"/>
+      <ATTRSTART token="59" name="type" value="PXAUTHINFO"/>
+      <ATTRSTART token="5A" name="type" value="NAPAUTHINFO"/>
+      <ATTRSTART token="5B" name="type" value="ACCESS"/>
+      <ATTRSTART token="50" codepage="01" name="type"/>
+      <ATTRSTART token="53" codepage="01" name="type" value="PORT"/>
+      <ATTRSTART token="55" codepage="01" name="type" value="APPLICATION"/>
+      <ATTRSTART token="56" codepage="01" name="type" value="APPADDR"/>
+      <ATTRSTART token="57" codepage="01" name="type" value="APPAUTH"/>
+      <ATTRSTART token="58" codepage="01" name="type" value="CLIENTIDENTITY"/>
+      <ATTRSTART token="59" codepage="01" name="type" value="RESOURCE"/>
+      <!-- Parm -->
       <ATTRSTART token="05" name="name"/>
       <ATTRSTART token="06" name="value"/>
       <ATTRSTART token="07" name="name" value="NAME"/>
@@ -907,21 +933,42 @@
       <ATTRSTART token="3A" name="name" value="TRANSFER-DELAY"/>
       <ATTRSTART token="3B" name="name" value="GUARANTEED-BITRATE-UPLINK"/>
       <ATTRSTART token="3C" name="name" value="GUARANTEED-BITRATE-DNLINK"/>
-      <ATTRSTART token="45" name="version"/>
-      <ATTRSTART token="46" name="version" value="1.0"/>
-      <ATTRSTART token="50" name="type"/>
-      <ATTRSTART token="51" name="type" value="PXLOGICAL"/>
-      <ATTRSTART token="52" name="type" value="PXPHYSICAL"/>
-      <ATTRSTART token="53" name="type" value="PORT"/>
-      <ATTRSTART token="54" name="type" value="VALIDITY"/>
-      <ATTRSTART token="55" name="type" value="NAPDEF"/>
-      <ATTRSTART token="56" name="type" value="BOOTSTRAP"/>
-      <ATTRSTART token="57" name="type" value="VENDORCONFIG"/>
-      <ATTRSTART token="58" name="type" value="CLIENTIDENTITY"/>
-      <ATTRSTART token="59" name="type" value="PXAUTHINFO"/>
-      <ATTRSTART token="5A" name="type" value="NAPAUTHINFO"/>
+      <ATTRSTART token="3D" name="name" value="PXADDR-FQDN"/>
+      <ATTRSTART token="3E" name="name" value="PROXY-PW"/>
+      <ATTRSTART token="3F" name="name" value="PPGAUTH-TYPE"/>
+      <ATTRSTART token="47" name="name" value="PULLENABLED"/>
+      <ATTRSTART token="48" name="name" value="DNS-ADDR"/>
+      <ATTRSTART token="49" name="name" value="MAX-NUM-RETRY"/>
+      <ATTRSTART token="4A" name="name" value="FIRST-RETRY-TIMEOUT"/>
+      <ATTRSTART token="4B" name="name" value="REREG-THRESHOLD"/>
+      <ATTRSTART token="4C" name="name" value="T-BIT"/>
+      <ATTRSTART token="4E" name="name" value="AUTH-ENTITY"/>
+      <ATTRSTART token="4F" name="name" value="SPI"/>
+      <ATTRSTART token="05" codepage="01" name="name"/>
+      <ATTRSTART token="06" codepage="01" name="value"/>
+      <ATTRSTART token="07" codepage="01" name="name" value="NAME"/>
+      <ATTRSTART token="14" codepage="01" name="name" value="INTERNET"/>
+      <ATTRSTART token="1C" codepage="01" name="name" value="STARTPAGE"/>
+      <ATTRSTART token="22" codepage="01" name="name" value="TO-NAPID"/>
+      <ATTRSTART token="23" codepage="01" name="name" value="PORTNBR"/>
+      <ATTRSTART token="24" codepage="01" name="name" value="SERVICE"/>
+      <ATTRSTART token="2E" codepage="01" name="name" value="AACCEPT"/>
+      <ATTRSTART token="2F" codepage="01" name="name" value="AAUTHDATA"/>
+      <ATTRSTART token="30" codepage="01" name="name" value="AAUTHLEVEL"/>
+      <ATTRSTART token="31" codepage="01" name="name" value="AAUTHNAME"/>
+      <ATTRSTART token="32" codepage="01" name="name" value="AAUTHSECRET"/>
+      <ATTRSTART token="33" codepage="01" name="name" value="AAUTHTYPE"/>
+      <ATTRSTART token="34" codepage="01" name="name" value="ADDR"/>
+      <ATTRSTART token="35" codepage="01" name="name" value="ADDRTYPE"/>
+      <ATTRSTART token="36" codepage="01" name="name" value="APPID"/>
+      <ATTRSTART token="37" codepage="01" name="name" value="APROTOCOL"/>
+      <ATTRSTART token="38" codepage="01" name="name" value="PROVIDER-ID"/>
+      <ATTRSTART token="39" codepage="01" name="name" value="TO-PROXY"/>
+      <ATTRSTART token="3A" codepage="01" name="name" value="URI"/>
+      <ATTRSTART token="3B" codepage="01" name="name" value="RULE"/>
     </AttrStartTokens>
     <AttrValueTokens>
+      <!-- ADDRTYPE -->
       <ATTRVALUE token="85" value="IPV4"/>
       <ATTRVALUE token="86" value="IPV6"/>
       <ATTRVALUE token="87" value="E164"/>
@@ -930,17 +977,26 @@
       <ATTRVALUE token="8A" value="SCODE"/>
       <ATTRVALUE token="8B" value="TETRA-ITSI"/>
       <ATTRVALUE token="8C" value="MAN"/>
+      <ATTRVALUE token="86" codepage="01" value="IPV6"/>
+      <ATTRVALUE token="87" codepage="01" value="E164"/>
+      <ATTRVALUE token="88" codepage="01" value="ALPHA"/>
+      <ATTRVALUE token="8D" codepage="01" value="APPSRV"/>
+      <ATTRVALUE token="8E" codepage="01" value="OBEX"/>
+      <!-- CALLTYPE -->
       <ATTRVALUE token="90" value="ANALOG-MODEM"/>
       <ATTRVALUE token="91" value="V.120"/>
       <ATTRVALUE token="92" value="V.110"/>
       <ATTRVALUE token="93" value="X.31"/>
       <ATTRVALUE token="94" value="BIT-TRANSPARENT"/>
       <ATTRVALUE token="95" value="DIRECT-ASYNCHRONOUS-DATA-SERVICE"/>
+      <!-- AUTHTYPE/PXAUTH-TYPE -->
       <ATTRVALUE token="9A" value="PAP"/>
       <ATTRVALUE token="9B" value="CHAP"/>
       <ATTRVALUE token="9C" value="HTTP-BASIC"/>
       <ATTRVALUE token="9D" value="HTTP-DIGEST"/>
       <ATTRVALUE token="9E" value="WTLS-SS"/>
+      <ATTRVALUE token="9F" value="MD5"/>
+      <!-- BEARER -->
       <ATTRVALUE token="A2" value="GSM-USSD"/>
       <ATTRVALUE token="A3" value="GSM-SMS"/>
       <ATTRVALUE token="A4" value="ANSI-136-GUTS"/>
@@ -964,13 +1020,29 @@
       <ATTRVALUE token="B6" value="TETRA-PACKET"/>
       <ATTRVALUE token="B7" value="ANSI-136-GHOST"/>
       <ATTRVALUE token="B8" value="MOBITEX-MPAK"/>
+      <ATTRVALUE token="B9" value="CDMA2000-1X-SIMPLE-IP"/>
+      <ATTRVALUE token="BA" value="CDMA2000-1X-MOBILE-IP"/>
+      <!-- LINKSPEED -->
       <ATTRVALUE token="C5" value="AUTOBAUDING"/>
+      <!-- SERVICE -->
       <ATTRVALUE token="CA" value="CL-WSP"/>
       <ATTRVALUE token="CB" value="CO-WSP"/>
       <ATTRVALUE token="CC" value="CL-SEC-WSP"/>
       <ATTRVALUE token="CD" value="CO-SEC-WSP"/>
       <ATTRVALUE token="CE" value="CL-SEC-WTA"/>
       <ATTRVALUE token="CF" value="CO-SEC-WTA"/>
+      <ATTRVALUE token="D0" value="OTA-HTTP-TO"/>
+      <ATTRVALUE token="D1" value="OTA-HTTP-TLS-TO"/>
+      <ATTRVALUE token="D2" value="OTA-HTTP-PO"/>
+      <ATTRVALUE token="D3" value="OTA-HTTP-TLS-PO"/>
+      <!-- AAUTHTYPE -->
+      <ATTRVALUE token="80" codepage="01" value=","/>
+      <ATTRVALUE token="81" codepage="01" value="HTTP-"/>
+      <ATTRVALUE token="82" codepage="01" value="BASIC"/>
+      <ATTRVALUE token="84" codepage="01" value="DIGEST"/>
+      <!-- AUTH-ENTITY -->
+      <ATTRVALUE token="E0" value="AAA"/>
+      <ATTRVALUE token="E1" value="HA"/>
     </AttrValueTokens>
   </App>
   <App publicid="-//WAPFORUM//DTD WTA-WML 1.2//EN" use-default="yes" variable-subs="yes" textual-ext="wta-wml" tokenised-ext="wta-wmlc" xml-space="default"

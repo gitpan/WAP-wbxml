@@ -8,7 +8,7 @@ use integer;
 use bytes;
 
 use vars qw($VERSION);
-$VERSION = '1.09';
+$VERSION = '1.10';
 
 =head1 NAME
 
@@ -372,20 +372,20 @@ sub compileAttributeValues {
 	my $start;
 	my $end;
 	while (1) {
-		($attr,$start,$end) = $self->{rulesApp}->getAttrValue($value);
+		($attr,$start,$end) = $self->{rulesApp}->getAttrValue($value,$self->{attrCodepage});
 		last unless ($attr);
 		$self->compilePreserveStringI($start) if ($start);
 		$self->compileAttributeExtToken($attr->{ext_token});
 		$value = $end;
 	}
-	$self->compilePreserveStringI($start);
+	$self->compilePreserveStringI($start) if ($start);
 }
 
 sub compileProcessingInstruction {
 	my $self = shift;
 	my ($target,$data) = @_;
 	$self->putb('body',PI);
-	my ($attr_start,$dummy) = $self->{rulesApp}->getAttrStart($target,"");
+	my ($attr_start,$dummy) = $self->{rulesApp}->getAttrStart($target,"",$self->{attrCodepage});
 	if ($attr_start) {
 		# well-known attribute name
 		$self->compileAttributeExtToken($attr_start->{ext_token});
@@ -405,7 +405,7 @@ sub prepareAttribute {
 	my ($tagname,$attr) = @_;
 	my $attr_name = $attr->getName();
 	my $attr_value = $attr->getValue();
-	my ($attr_start,$remain) = $self->{rulesApp}->getAttrStart($attr_name,$attr_value);
+	my ($attr_start,$remain) = $self->{rulesApp}->getAttrStart($attr_name,$attr_value,$self->{attrCodepage});
 	if ($attr_start) {
 		# well-known attribute name
 		my $default_list = $attr_start->{default} || "";
@@ -423,7 +423,7 @@ sub compileAttribute {
 	my ($tagname,$attr) = @_;
 	my $attr_name = $attr->getName();
 	my $attr_value = $attr->getValue();
-	my ($attr_start,$remain) = $self->{rulesApp}->getAttrStart($attr_name,$attr_value);
+	my ($attr_start,$remain) = $self->{rulesApp}->getAttrStart($attr_name,$attr_value,$self->{attrCodepage});
 	if ($attr_start) {
 		# well-known attribute name
 		my $default_list = $attr_start->{default} || "";
@@ -490,7 +490,7 @@ sub compileElement {
 	if ($elt->hasChildNodes()) {
 		$cpl_token |= HAS_CHILD;
 	}
-	my $tag_token = $self->{rulesApp}->getTag($tagname);
+	my $tag_token = $self->{rulesApp}->getTag($tagname, $self->{tagCodepage});
 	if ($tag_token) {
 		# well-known tag name
 		$self->compileTagExtToken($cpl_token | $tag_token->{ext_token});
@@ -779,13 +779,21 @@ sub new {
 
 sub getTag {
 	my $self = shift;
-	my ($tagname) = @_;
+	my ($tagname, $curr_page) = @_;
 	if ($tagname) {
+		my @found = ();
 		foreach (@{$self->{TagTokens}}) {
 			if ($tagname eq $_->{name}) {
 #				print "Tag $_->{name}.\n";
-				return $_;
+				if ($_->{ext_token} / 256 == $curr_page) {
+					return $_;
+				} else {
+					push @found, $_;
+				}
 			}
+		}
+		if (scalar @found) {
+			return shift @found;
 		}
 	}
 	return undef;
@@ -793,7 +801,7 @@ sub getTag {
 
 sub getAttrStart {
 	my $self = shift;
-	my ($name, $value) = @_;
+	my ($name, $value, $curr_page) = @_;
 	my $best = undef;
 	my $remain = $value;
 	if ($name) {
@@ -808,12 +816,20 @@ sub getAttrStart {
 						if ($len > $max_len) {
 							$max_len = $len;
 							$best = $_;
+						} elsif ($len == $max_len) {
+							if ($_->{ext_token} / 256 == $curr_page) {
+								$best = $_;
+							}
 						}
 					}
 				} else {
 					if ($max_len == -1) {
 						$max_len = 0;
 						$best = $_;
+					} elsif ($max_len == 0) {
+						if ($_->{ext_token} / 256 == $curr_page) {
+							$best = $_;
+						}
 					}
 				}
 			}
@@ -832,7 +848,7 @@ sub getAttrStart {
 
 sub getAttrValue {
 	my $self = shift;
-	my ($start) = @_;
+	my ($start, $curr_page) = @_;
 	my $best = undef;
 	my $end = "";
 	if ($start ne "") {
@@ -848,6 +864,10 @@ sub getAttrValue {
 						if ($len > $max_len) {
 							$max_len = $len;
 							$best = $_;
+						} elsif ($len == $max_len) {
+							if ($_->{ext_token} / 256 == $curr_page) {
+								$best = $_;
+							}
 						}
 					} elsif ($found <  $best_found) {
 						$best = $_;
@@ -1216,7 +1236,7 @@ wbxmlc, WAP::SAXDriver::wbxml
 
 =head1 COPYRIGHT
 
-(c) 2000-2004 Francois PERRAD, France. All rights reserved.
+(c) 2000-2005 Francois PERRAD, France. All rights reserved.
 
 This program (WAP::wbxml.pm and the internal DTD of wbrules.xml) is distributed
 under the terms of the Artistic Licence.

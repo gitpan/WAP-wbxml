@@ -5,6 +5,7 @@ test.pl
 wbxml.pm
 wap.wbrules.xml
 syncml.wbrules.xml
+wv.wbrules.xml
 wbxmlc.pl
 README
 samples/makefile

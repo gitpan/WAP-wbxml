@@ -8,7 +8,7 @@ use integer;
 use bytes;
 
 use vars qw($VERSION);
-$VERSION = '1.08';
+$VERSION = '1.09';
 
 =head1 NAME
 
@@ -17,12 +17,12 @@ WAP::wbxml - Binarization of XML file
 =head1 SYNOPSIS
 
   use XML::DOM;
-  use WAP::wbxml;
+  use WAP::WbXml;
 
   $parser = new XML::DOM::Parser;
   $doc_xml = $parser->parsefile($infile);
 
-  $rules = WbRules->Load();
+  $rules = WbRules::Load();
   $wbxml = new WbXml($rules,$publicid);
   $output = $wbxml->compile($doc_xml,$encoding);
 
@@ -38,7 +38,7 @@ The XML input file must refere to a DTD with a public identifier.
 
 The file WAP/wap.wbrules.xml configures this tool for all known DTD.
 
-This module needs Data::Dumper, I18N::Charset and XML::DOM modules.
+This module needs I18N::Charset and XML::DOM modules.
 
 WAP Specifications, including Binary XML Content Format (WBXML)
  are available on E<lt>http://www.wapforum.org/E<gt>.
@@ -107,6 +107,7 @@ sub new {
 }
 
 sub compileDatetime {
+	# WAP / WML
 	my $self = shift;
 	my ($content) = @_;
 	my $str;
@@ -131,6 +132,72 @@ sub compileDatetime {
 	$self->putstr('body',$str);
 }
 
+sub compileBinaryWV {
+	# WV
+	use MIME::Base64;
+	my $self = shift;
+	my ($value) = @_;
+	$value =~ s/\s+//g;
+	my $data = decode_base64($value);
+	if (length $data) {
+		$self->putb('body',OPAQUE);
+		$self->putmb('body',length $data);
+		$self->putstr('body',$data);
+	}
+}
+
+sub compileIntegerWV {
+	# WV
+	my $self = shift;
+	my ($value) = @_;
+	$value =~ s/\s+/ /g;
+	unless ($value =~ /^\s*$/) {
+		if ($value < 0 and $value > 4294967295) {
+			warn "'Integer' error : $value.\n";
+			$self->compilePreserveStringI($value);
+		} else {
+			$self->putb('body',OPAQUE);
+			if      ($value < 256) {
+				$self->putmb('body',1);
+				$self->putb('body',$value);
+			} elsif ($value < 65536) {
+				$self->putmb('body',2);
+				$self->putstr('body',pack("n",$value));
+			} else {
+				$self->putmb('body',4);
+				$self->putstr('body',pack("N",$value));
+			}
+		}
+	}
+}
+
+sub compileDatetimeWV {
+	# WV
+	my $self = shift;
+	my ($content) = @_;
+	my $str;
+	if ($content =~ /^\s*(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)(Z)?\s*$/) {
+		my $year  = $1;
+		my $month = $2;
+		my $day   = $3;
+		my $hour  = $4;
+		my $min   = $5;
+		my $sec   = $6;
+		my $tz    = $7 || "\0";
+		$self->putb('body',OPAQUE);
+		$self->putmb('body',6);
+		$self->putb('body',$year >> 6);
+		$self->putb('body',(($year & 0x03F) << 2) | ($month >> 2));
+		$self->putb('body',(($month & 0x3) << 6) | ($day << 1) | ($hour >> 4));
+		$self->putb('body',(($hour & 0xF) << 4) | ($min >> 2));
+		$self->putb('body',(($min & 0x3) << 6) | $sec);
+		$self->putb('body',ord $tz);
+	} else {
+		warn "'Datetime' error : $content.\n";
+		$self->compilePreserveStringI($content);
+	}
+}
+
 sub compilePreserveStringT {
 	my $self = shift;
 	my ($str) = @_;
@@ -149,6 +216,24 @@ sub compilePreserveStringT {
 sub compilePreserveStringI {
 	my $self = shift;
 	my ($str) = @_;
+	my $idx = $self->{rulesApp}->getExtValue($str, "Ext0Values");
+	if (defined $idx) {
+		$self->putb('body',EXT_T_0);
+		$self->putmb('body',$idx);
+		return;
+	}
+	$idx = $self->{rulesApp}->getExtValue($str, "Ext1Values");
+	if (defined $idx) {
+		$self->putb('body',EXT_T_1);
+		$self->putmb('body',$idx);
+		return;
+	}
+	$idx = $self->{rulesApp}->getExtValue($str, "Ext2Values");
+	if (defined $idx) {
+		$self->putb('body',EXT_T_2);
+		$self->putmb('body',$idx);
+		return;
+	}
 	$self->putb('body',STR_I);
 	$self->putstr('body',$str);
 	$self->putb('body',NULL);
@@ -162,6 +247,7 @@ sub compileStringI {
 }
 
 sub compileStringIwithVariables {
+	# WAP / WML
 	my $self = shift;
 	my ($str) = @_;
 	my $text = '';
@@ -423,14 +509,14 @@ sub compileElement {
 		$self->putb('body',_END);
 	}
 	if ($cpl_token & HAS_CHILD) {
-		$self->compileContent($elt->getFirstChild(),$xml_lang,$xml_space);
+		$self->compileContent($elt->getFirstChild(),$tag_token,$xml_lang,$xml_space);
 		$self->putb('body',_END);
 	}
 }
 
 sub compileContent {
 	my $self = shift;
-	my ($tag,$xml_lang,$xml_space) = @_;
+	my ($tag,$parent,$xml_lang,$xml_space) = @_;
 	for (my $node = $tag;
 			$node;
 			$node = $node->getNextSibling() ) {
@@ -445,7 +531,16 @@ sub compileContent {
 				if ($xml_space eq "preserve") {
 					$self->compilePreserveStringI($value) unless ($value =~ /^\s*$/);
 				} else {
-					$self->compileStringI($value);
+					my $encoding = ($parent and exists $parent->{encoding}) ? $parent->{encoding} : "";
+					if      ($encoding eq "base64") {
+						$self->compileBinaryWV($value);
+					} elsif ($encoding eq "datetime") {
+						$self->compileDatetimeWV($value);
+					} elsif ($encoding eq "integer") {
+						$self->compileIntegerWV($value);
+					} else {
+						$self->compileStringI($value);
+					}
 				}
 			}
 		} elsif ($type == CDATA_SECTION_NODE) {
@@ -602,23 +697,23 @@ sub new {
 }
 
 package TagToken;
-use vars qw(@ISA);
-@ISA = qw(Token);
+
+use base qw(Token);
 
 sub new {
 	my $proto = shift;
 	my $class = ref($proto) || $proto;
-	my ($token,$name,$codepage) = @_;
+	my ($token,$name,$codepage,$encoding) = @_;
 	my $self = new Token($token,$codepage);
 	bless($self, $class);
 	$self->{name} = $name;
+	$self->{encoding} = $encoding if ($encoding ne "");
 	return $self;
 }
 
 package AttrStartToken;
 
-use vars qw(@ISA);
-@ISA = qw(Token);
+use base qw(Token);
 
 sub new {
 	my $proto = shift;
@@ -637,8 +732,7 @@ sub new {
 
 package AttrValueToken;
 
-use vars qw(@ISA);
-@ISA = qw(Token);
+use base qw(Token);
 
 sub new {
 	my $proto = shift;
@@ -646,6 +740,19 @@ sub new {
 	my ($token,$value,$codepage) = @_;
 	my $self = new Token($token,$codepage);
 	bless($self, $class);
+	$self->{value} = $value;
+	return $self;
+}
+
+package ExtValue;
+
+sub new {
+	my $proto = shift;
+	my $class = ref($proto) || $proto;
+	my $self = {};
+	bless($self, $class);
+	my ($index,$value) = @_;
+	$self->{index} = hex($index);
 	$self->{value} = $value;
 	return $self;
 }
@@ -759,6 +866,20 @@ sub getAttrValue {
 	return ($best,$start,$end);
 }
 
+sub getExtValue {
+	my $self = shift;
+	my ($value, $ext) = @_;
+	if ($value and exists $self->{$ext} and scalar $self->{$ext}) {
+		foreach (@{$self->{$ext}}) {
+			if ($value eq $_->{value}) {
+#				print "ExtValue : $value\n";
+				return $_->{index} ;
+			}
+		}
+	}
+	return undef;
+}
+
 package WbRules;
 
 sub new {
@@ -868,7 +989,8 @@ sub visitTAG {
 	my $token = $node->getAttribute("token");
 	my $name = $node->getAttribute("name");
 	my $codepage = $node->getAttribute("codepage");
-	my $tag = new TagToken($token,$name,$codepage);
+	my $encoding = $node->getAttribute("encoding");
+	my $tag = new TagToken($token,$name,$codepage,$encoding);
 	push @{$self->{wbrulesapp}->{TagTokens}}, $tag;
 }
 
@@ -921,6 +1043,51 @@ sub visitATTRVALUE {
 	push @{$self->{wbrulesapp}->{AttrValueTokens}}, $tag;
 }
 
+sub visitExt0Values {
+	my $self = shift;
+	my($parent) = @_;
+	for (my $node = $parent->getFirstChild();
+			$node;
+			$node = $node->getNextSibling()	) {
+		if ($node->getNodeType() == ELEMENT_NODE) {
+			$self->{doc}->visitElement($node,$self,"Ext0Values");
+		}
+	}
+}
+
+sub visitExt1Values {
+	my $self = shift;
+	my($parent) = @_;
+	for (my $node = $parent->getFirstChild();
+			$node;
+			$node = $node->getNextSibling()	) {
+		if ($node->getNodeType() == ELEMENT_NODE) {
+			$self->{doc}->visitElement($node,$self,"Ext1Values");
+		}
+	}
+}
+
+sub visitExt2Values {
+	my $self = shift;
+	my($parent) = @_;
+	for (my $node = $parent->getFirstChild();
+			$node;
+			$node = $node->getNextSibling()	) {
+		if ($node->getNodeType() == ELEMENT_NODE) {
+			$self->{doc}->visitElement($node,$self,"Ext0Values");
+		}
+	}
+}
+
+sub visitEXTVALUE {
+	my $self = shift;
+	my($node,$ext) = @_;
+	my $index = $node->getAttribute("index");
+	my $value = $node->getAttribute("value");
+	my $tag = new ExtValue($index,$value);
+	push @{$self->{wbrulesapp}->{$ext}}, $tag;
+}
+
 sub visitCharacterEntities {
 	my $self = shift;
 	my($parent) = @_;
@@ -960,12 +1127,13 @@ sub new {
 
 sub visitElement {
 	my $self = shift;
-	my($node,$visitor) = @_;
+	my $node = shift;
+	my $visitor = shift;
 	my $name = $node->getNodeName();
-	$name =~ s/^wbxml://;
+	$name =~ s/^wbxml://;	# backward compat
 	my $func = 'visit' . $name;
 	if($visitor->can($func)) {
-		$visitor->$func($node);
+		$visitor->$func($node,@_);
 	} else {
 		warn "unknown element '$name'\n";
 	}
@@ -975,7 +1143,7 @@ package WbRules;
 
 =item Load
 
- $rules = WbRules->Load( [PATH] );
+ $rules = WbRules::Load( [PATH] );
 
 Loads rules from PATH.
 
@@ -986,8 +1154,6 @@ WAP/wap.wbrules.xml supplies rules for WAP files, but it could extended to over 
 =cut
 
 sub Load {
-	my $proto = shift;
-	my $class = ref($proto) || $proto;
 	my($path) = @_;
 	my $config;
 	my $persistance;
@@ -1050,7 +1216,7 @@ wbxmlc, WAP::SAXDriver::wbxml
 
 =head1 COPYRIGHT
 
-(c) 2000-2002 Francois PERRAD, France. All rights reserved.
+(c) 2000-2004 Francois PERRAD, France. All rights reserved.
 
 This program (WAP::wbxml.pm and the internal DTD of wbrules.xml) is distributed
 under the terms of the Artistic Licence.

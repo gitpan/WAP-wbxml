@@ -1,5 +1,13 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.09  Wed Jul  7 18:30:00 2004
+	- wbxmlc.pl : add option -h (display help)
+	- wbxmlc.pl : add option -v (display version)
+	- wbxml.pm : add support Wireless Village
+	- wv.wbrules.xml : new file (Wireless Village)
+	- wap.wbrules.xml : update WAP -> OMA
+	- syncml.wbrules.xml : update SyncML -> OMA
+
 1.08  Thu Jul 22 12:30:00 2003
 	- add option -p : path for rules
 	- rename wbrules.xml to wap.wbrules.xml

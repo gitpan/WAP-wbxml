@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
+<?xml version="1.0" encoding="US-ASCII" ?>
 <!DOCTYPE wbxml [
   <!ELEMENT wbxml (PublicIdentifiers,App+)>
   <!ATTLIST wbxml version NMTOKEN #REQUIRED>
@@ -6,11 +6,11 @@
   <!ELEMENT PublicIdentifier EMPTY>
   <!ATTLIST PublicIdentifier value NMTOKEN #REQUIRED>
   <!ATTLIST PublicIdentifier name CDATA #REQUIRED>
-  <!ELEMENT App (TagTokens?,AttrStartTokens?,AttrValueTokens?,CharacterEntities?)>
+  <!ELEMENT App (TagTokens?,AttrStartTokens?,AttrValueTokens?,Ext0Values?,Ext1Values?,Ext2Values?,CharacterEntities?)>
   <!ATTLIST App publicid CDATA #REQUIRED>
   <!ATTLIST App systemid CDATA #IMPLIED>
   <!ATTLIST App use-default (no|yes) #IMPLIED>
-  <!ATTLIST App variable-subs (no|yes) #IMPLIED>
+  <!ATTLIST App variable-subs (no|yes) #IMPLIED>	<!-- WAP / WML -->
   <!ATTLIST App textual-ext NMTOKEN #IMPLIED>
   <!ATTLIST App tokenised-ext NMTOKEN #IMPLIED>
   <!ATTLIST App xml-space (default|preserve) #IMPLIED>
@@ -19,6 +19,7 @@
   <!ATTLIST TAG token NMTOKEN #REQUIRED>
   <!ATTLIST TAG name NMTOKEN #REQUIRED>
   <!ATTLIST TAG codepage NMTOKEN #IMPLIED>
+  <!ATTLIST TAG encoding (base64|datetime|integer) #IMPLIED>	<!-- WV -->
   <!ELEMENT AttrStartTokens (ATTRSTART)*>
   <!ELEMENT ATTRSTART EMPTY>
   <!ATTLIST ATTRSTART token NMTOKEN #REQUIRED>
@@ -27,13 +28,19 @@
   <!ATTLIST ATTRSTART codepage NMTOKEN #IMPLIED>
   <!ATTLIST ATTRSTART default CDATA #IMPLIED>
   <!ATTLIST ATTRSTART fixed CDATA #IMPLIED>
-  <!ATTLIST ATTRSTART validate (std|length|vdata) #IMPLIED>
-  <!ATTLIST ATTRSTART encoding (std|iso-8601) #IMPLIED>
+  <!ATTLIST ATTRSTART validate (std|length|vdata) #IMPLIED>	<!-- WAP / WML -->
+  <!ATTLIST ATTRSTART encoding (std|iso-8601) #IMPLIED>		<!-- WAP -->
   <!ELEMENT AttrValueTokens (ATTRVALUE)*>
   <!ELEMENT ATTRVALUE EMPTY>
   <!ATTLIST ATTRVALUE token NMTOKEN #REQUIRED>
   <!ATTLIST ATTRVALUE value CDATA #REQUIRED>
   <!ATTLIST ATTRVALUE codepage NMTOKEN #IMPLIED>
+  <!ELEMENT Ext0Values (EXTVALUE)*>	<!-- WV -->
+  <!ELEMENT Ext1Values (EXTVALUE)*>
+  <!ELEMENT Ext2Values (EXTVALUE)*>
+  <!ELEMENT EXTVALUE EMPTY>
+  <!ATTLIST EXTVALUE index NMTOKEN #REQUIRED>
+  <!ATTLIST EXTVALUE value CDATA #REQUIRED>
   <!ELEMENT CharacterEntities (CharacterEntity)*>
   <!ELEMENT CharacterEntity EMPTY>
   <!ATTLIST CharacterEntity name NMTOKEN #REQUIRED>
@@ -48,28 +55,37 @@
   <!--  see: Binary XML Content Format, Version 1.3 -->
   <!--       WAP-192-WBXML-20010725-a -->
   <PublicIdentifiers>
-    <!-- see: section 7.2 "Public Identifiers" in WBXML 1.3 -->
+    <!-- The normative list of well known public identifiers issued, and maintained,
+         by the OMNA (Open Mobile Naming Authority) SHALL be found
+         at http://www.openmobilealliance.org/tech/omna/omna-wbxml-public-docid.htm -->
     <!-- value="1"  Unknown or missing public identifier -->
     <!-- if no value, publicid is encoding as string -->
     <PublicIdentifier value="2" name="-//WAPFORUM//DTD WML 1.0//EN"/>
-    <!--   DEPRECATED       value="3" name="-//WAPFORUM//DTD WTA 1.0//EN" -->
-    <PublicIdentifier value="4" name="-//WAPFORUM//DTD WML 1.1//EN"/>
-    <PublicIdentifier value="5" name="-//WAPFORUM//DTD SI 1.0//EN"/>
-    <PublicIdentifier value="6" name="-//WAPFORUM//DTD SL 1.0//EN"/>
-    <PublicIdentifier value="7" name="-//WAPFORUM//DTD CO 1.0//EN"/>
-    <PublicIdentifier value="8" name="-//WAPFORUM//DTD CHANNEL 1.1//EN"/>
-    <PublicIdentifier value="9" name="-//WAPFORUM//DTD WML 1.2//EN"/>
-    <PublicIdentifier value="A" name="-//WAPFORUM//DTD WML 1.3//EN"/>
-    <PublicIdentifier value="B" name="-//WAPFORUM//DTD PROV 1.0//EN"/>
-    <PublicIdentifier value="C" name="-//WAPFORUM//DTD WTA-WML 1.2//EN"/>
-    <PublicIdentifier value="D" name="-//WAPFORUM//DTD CHANNEL 1.2//EN"/>
-    <!--                              name="-//WAPFORUM//DTD PAP 2.O//EN" -->
-    <!-- values E-7F : Reserved -->
+    <PublicIdentifier value="2"  name="-//WAPFORUM//DTD WML 1.0//EN"/>
+    <!--   DEPRECATED       value="3"  name="-//WAPFORUM//DTD WTA 1.0//EN" -->
+    <PublicIdentifier value="4"  name="-//WAPFORUM//DTD WML 1.1//EN"/>
+    <PublicIdentifier value="5"  name="-//WAPFORUM//DTD SI 1.0//EN"/>
+    <PublicIdentifier value="6"  name="-//WAPFORUM//DTD SL 1.0//EN"/>
+    <PublicIdentifier value="7"  name="-//WAPFORUM//DTD CO 1.0//EN"/>
+    <PublicIdentifier value="8"  name="-//WAPFORUM//DTD CHANNEL 1.1//EN"/>
+    <PublicIdentifier value="9"  name="-//WAPFORUM//DTD WML 1.2//EN"/>
+    <PublicIdentifier value="A"  name="-//WAPFORUM//DTD WML 1.3//EN"/>
+    <PublicIdentifier value="B"  name="-//WAPFORUM//DTD PROV 1.0//EN"/>
+    <PublicIdentifier value="C"  name="-//WAPFORUM//DTD WTA-WML 1.2//EN"/>
+    <PublicIdentifier value="D"  name="-//WAPFORUM//DTD EMN 1.0//EN"/>
+    <PublicIdentifier value="E"  name="-//OMA//DTD DRMREL 1.0//EN"/>
+    <PublicIdentifier value="F"  name="-//WIRELESSVILLAGE//DTD CSP 1.0//EN"/>
+    <PublicIdentifier value="10" name="-//WIRELESSVILLAGE//DTD CSP 1.1//EN"/>
+    <PublicIdentifier value="11" name="-//OMA//DTD WV-CSP 1.2//EN"/>
+    <!-- values 12-7F : Reserved -->
     <!-- SyncML specification -->
-    <PublicIdentifier value="FD1" name="-//SYNCML//DTD SyncML 1.0//EN"/>
-    <PublicIdentifier value="FD2" name="-//SYNCML//DTD DevInf 1.0//EN"/>
-    <PublicIdentifier value="FD3" name="-//SYNCML//DTD SyncML 1.1//EN"/>
-    <PublicIdentifier value="FD4" name="-//SYNCML//DTD DevInf 1.1//EN"/>
+    <PublicIdentifier value="FD1"  name="-//SYNCML//DTD SyncML 1.0//EN"/>
+    <PublicIdentifier value="FD2"  name="-//SYNCML//DTD DevInf 1.0//EN"/>
+    <PublicIdentifier value="FD3"  name="-//SYNCML//DTD SyncML 1.1//EN"/>
+    <PublicIdentifier value="FD4"  name="-//SYNCML//DTD DevInf 1.1//EN"/>
+    <PublicIdentifier value="1201" name="-//SYNCML//DTD SyncML 1.2//EN"/>
+    <PublicIdentifier value="1202" name="-//SYNCML//DTD MetaInf 1.2//EN"/>
+    <PublicIdentifier value="1203" name="-//SYNCML//DTD DevInf 1.2//EN"/>
   </PublicIdentifiers>
   <!--
        SyncML - www.syncml.org
@@ -144,7 +160,9 @@
     </TagTokens>
   </App>
   <App publicid="-//SYNCML//DTD SyncML 1.1//EN"
-       systemid="http://www.syncml.org/docs/syncml_represent_v11_20020215.dtd">
+       systemid="http://www.openmobilealliance.org/tech/DTD/OMA-SyncML-RepPro-DTD-V1_1_2-20030505-D.dtd">
+    <!-- see: SyncML Representation Protocol, version 1.1.2, Approved Version 12-June-2003
+              OMA-SyncML-RepPro-V1_1_2-20030612-A -->
     <!-- see: SyncML Representation Protocol, version 1.1.1, 2002-10-02 -->
     <TagTokens>
       <TAG token="05" name="Add" />
@@ -195,6 +213,8 @@
       <TAG token="32" name="VerProto" />
       <TAG token="33" name="NumberOfChanges" />
       <TAG token="34" name="MoreData" />
+      <!-- see: SyncML Meta Information, version 1.1.2, Approved Version 12-June-2003
+                OMA-SyncML-MetaInfo-V1_1_2-20030612-A -->
       <!-- see: SyncML Meta-Information DTD, version 1.1.1, 2002-10-02 -->
       <TAG token="05" codepage="01" name="Anchor" />
       <TAG token="06" codepage="01" name="EMI" />
@@ -257,7 +277,9 @@
     </TagTokens>
   </App>
   <App publicid="-//SYNCML//DTD DevInf 1.1//EN"
-       systemid="http://www.syncml.org/docs/syncml_devinf_v11_20020215.dtd">
+       systemid="http://www.openmobilealliance.org/tech/DTD/OMA-SyncML-DevInfo-DTD-V1_1_2-20030505-D.dtd">
+    <!-- see: SyncML Device Information, version 1.1.2, Approved Version 12-June-2003
+              OMA-SyncML-DevInfo_V1_1_2-20030612-A -->
     <!-- see: SyncML Device Information DTD, version 1.1.1, 2002-10-02 -->
     <TagTokens>
       <TAG token="05" name="CTCap" />

@@ -3,22 +3,32 @@
 use strict;
 
 use Getopt::Std;
+use Pod::Usage;
 use XML::DOM;
 use WAP::wbxml;
 
 my %opts;
-getopts('p:', \%opts);
+getopts('hp:v', \%opts);
+
+if ($opts{v}) {
+	print "WAP::wbxml $WbXml::VERSION\n";
+	print "$0\n";
+	print "Perl $] on $^O\n";
+	exit;
+}
+pod2usage(-verbose => 1) if ($opts{h});
+pod2usage() unless (scalar @ARGV == 1);
 
 my $infile = $ARGV[0];
-die "no filename.\n" unless($infile);
 my $parser = new XML::DOM::Parser;
 my $doc = $parser->parsefile($infile);
 
-my $encoding = $doc->getXMLDecl()->getEncoding();		# not in DOM Spec
+my $xml_decl = $doc->getXMLDecl();						# not in DOM Spec
+my $encoding = $xml_decl ? $xml_decl->getEncoding() : undef;
 my $publicid = $doc->getDoctype()->getPubId();			# not in DOM Spec
 die "no PublicId.\n" unless ($publicid);
 
-my $rules = WbRules->Load($opts{p});
+my $rules = WbRules::Load($opts{p});
 my $wbxml = new WbXml($rules,$publicid);
 my $output = $wbxml->compile($doc,$encoding);
 my $filename = $wbxml->outfile($infile);
@@ -35,7 +45,7 @@ __END__
 
 wbxmlc - WBXML Compiler
 
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
 wbxmlc [B<-p> I<path>] I<file>
 
@@ -43,9 +53,17 @@ wbxmlc [B<-p> I<path>] I<file>
 
 =over 8
 
+=item -h
+
+Display help.
+
 =item -p
 
 Specify the path of rules (the default is WAP/wap.wbrules.xml).
+
+=item -v
+
+Display version.
 
 =back
 
@@ -61,8 +79,6 @@ Version 1.3 WBXML (15th May 2000 Approved)
 The XML input file must refere to a DTD with a public identifier.
 
 The file WAP/wbrules.xml configures this tool for all known DTD.
-
-B<wbxmlc> needs Data::Dumper and XML::DOM modules.
 
 WAP Specifications, including Binary XML Content Format (WBXML)
  are available on E<lt>http://www.wapforum.org/E<gt>.

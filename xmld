@@ -172,7 +172,6 @@ sub element {
 			$attr = get_attr();
 			print "\n" unless ($attr & 0x80 or $attr == STR_I or $attr == LITERAL);
 		}
-		print "\n";
 	}
 	if ($tag & HAS_CHILD) {
 		while ((my $child = get_tag()) != _END) {
@@ -238,9 +237,9 @@ sub attribute {
 		print sprintf("\\u%X ",$entcode);
 	} elsif ($attr == STR_I) {		# ATTRV
 		print "'",get_str_i(),"' ";
-	} elsif ($attr == LITERAL) {	# ATTRS, ATTRV
+	} elsif ($attr == LITERAL) {	# ATTRS
 		my $index = getmb32();
-		print $depth,get_str_t($index);
+		print $depth,get_str_t($index)," = ";
 	} elsif ($attr == EXT_I_0) {	# ATTRV
 		print "EXT_I_0 '",get_str_i(),"' ";
 	} elsif ($attr == EXT_I_1) {	# ATTRV
@@ -258,7 +257,7 @@ sub attribute {
 		print "EXT_T_2 '",get_str_t($index),"' ";
 	} elsif ($attr == STR_T) {		# ATTRV
 		my $index = getmb32();
-		print "'",get_str_t($index),"' ";
+		print "'",get_str_t($index),"'\n";
 	} elsif ($attr == EXT_0) {		# ATTRV
 		print "EXT_0 ";
 	} elsif ($attr == EXT_1) {		# ATTRV

@@ -6,7 +6,7 @@ use UNIVERSAL;
 
 package WbXml;
 use vars qw($VERSION);
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 =head1 NAME
 
@@ -367,7 +367,7 @@ sub compileAttribute {
 		# unknown attribute name
 		$self->putb('body',LITERAL);
 		$self->compilePreserveStringT($attr_name);
-		$self->putb('body',LITERAL);
+		$self->putb('body',STR_T);
 		$self->compilePreserveStringT($attr_value);
 	}
 }

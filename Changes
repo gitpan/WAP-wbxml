@@ -1,5 +1,8 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.02  Mon Dec 17 10:30:00 2001
+	- Fix a bug (modif 1.01)
+
 1.01  Fri Dec 14 18:30:00 2001
 	- The value of an attribute that name is unknown, is put in the string table.
 	- XHTML samples.

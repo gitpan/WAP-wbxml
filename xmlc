@@ -19,7 +19,8 @@ my $wbxml = new WbXml($rules,$publicid);
 my $output = $wbxml->compile($doc,$encoding);
 my $filename = $wbxml->outfile($infile);
 
-open OUT,"> $filename";
+open OUT,"> $filename"
+		or die "can't open $filename ($!)\n";
 binmode OUT,":raw";
 print OUT $output;
 close OUT;

@@ -1,12 +1,14 @@
 require 5.005;
 
 use strict;
-use integer;
 use UNIVERSAL;
 
 package WbXml;
+use integer;
+use bytes;
+
 use vars qw($VERSION);
-$VERSION = '1.05';
+$VERSION = '1.06';
 
 =head1 NAME
 
@@ -540,7 +542,8 @@ sub compile {
 	$self->compileCharSet($encoding);
 	$self->compileBody($doc);
 	$self->putmb('header',length $self->{strtbl});
-	return $self->{header} . $self->{strtbl} . $self->{body};
+	my $out = $self->{header} . $self->{strtbl} . $self->{body};
+	return $out;
 }
 
 =item outfile
@@ -1025,7 +1028,7 @@ sub Load {
 
 =head1 SEE ALSO
 
- xmlc, WAP::SAXDriver::wbxml.pm
+wbxmlc, WAP::SAXDriver::wbxml
 
 =head1 COPYRIGHT
 
@@ -1039,7 +1042,7 @@ See E<lt>http://www.wapforum.org/what/copyright.htmE<gt>.
 
 =head1 AUTHOR
 
-Francois PERRAD E<lt>perrad@besancon.sema.slb.comE<gt>
+Francois PERRAD, francois.perrad@gadz.org
 
 =cut
 

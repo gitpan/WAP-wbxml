@@ -15,7 +15,7 @@ WriteMakefile(
                         'wbrules.xml'   => '$(INST_LIBDIR)/wbrules.xml',
     },
     'EXE_FILES'     => ['xmlc'],
-    'AUTHOR'        => "Francois PERRAD (perrad\@besancon.sema.slb.com)",
+    'AUTHOR'        => "Francois PERRAD (francois.perrad\@gadz.org)",
     'dist'          => {
                         'COMPRESS'      => 'gzip',
                         'SUFFIX'        => '.gz',

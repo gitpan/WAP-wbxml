@@ -4,7 +4,7 @@ MANIFEST
 test.pl
 wbxml.pm
 wbrules.xml
-xmlc
+wbxmlc.pl
 README
 samples/makefile
 samples/sample_10.wml

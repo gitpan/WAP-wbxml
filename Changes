@@ -1,5 +1,10 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.06  Thu Sep 24 08:30:00 2002
+	- Fix for perl 5.6.1
+	- rename xmlc to wbxmlc.pl
+	- add attribute 'publicid' in wbrules.xml
+
 1.05  Thu Feb 14 20:30:00 2002
 	- use of I18N-Charset
 	- add rules for WAP PROV 1.0

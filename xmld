@@ -1,0 +1,364 @@
+#!/usr/bin/perl -w
+
+use strict;
+use integer;
+
+# Global tokens
+use constant SWITCH_PAGE  	=> 0x00;
+use constant _END			=> 0x01;
+use constant ENTITY			=> 0x02;
+use constant STR_I			=> 0x03;
+use constant LITERAL		=> 0x04;
+use constant EXT_I_0		=> 0x40;
+use constant EXT_I_1		=> 0x41;
+use constant EXT_I_2		=> 0x42;
+use constant PI				=> 0x43;
+use constant LITERAL_C		=> 0x44;
+use constant EXT_T_0		=> 0x80;
+use constant EXT_T_1		=> 0x81;
+use constant EXT_T_2		=> 0x82;
+use constant STR_T			=> 0x83;
+use constant LITERAL_A		=> 0x84;
+use constant EXT_0			=> 0xC0;
+use constant EXT_1			=> 0xC1;
+use constant EXT_2			=> 0xC2;
+use constant OPAQUE			=> 0xC3;
+use constant LITERAL_AC		=> 0xC4;
+# Global token masks
+use constant NULL			=> 0x00;
+use constant HAS_CHILD		=> 0x40;
+use constant HAS_ATTR		=> 0x80;
+use constant TAG_MASK		=> 0x3F;
+use constant ATTR_MASK		=> 0x7F;
+
+my $infile = $ARGV[0];
+die "no filename.\n" unless($infile);
+if (defined $ARGV[1]) {
+	open STDOUT,"> $ARGV[1]";
+}
+
+use WAP::wbxml;
+
+my $rules = WbRules->Load();
+my $app;
+my $version;
+my $publicid;
+my $publicid_idx;
+my $charset;
+my @strtbl = ();
+my $codepage_tag;
+my $codepage_attr;
+my $depth;
+
+open IN,$infile;
+binmode IN,":raw";
+get_version();
+get_publicid();
+get_charset();
+get_strtbl();
+print "WBXML Version : ",$version,"\n";
+$publicid = get_str_t($publicid_idx) unless ($publicid);
+print "Public Identifier : ",$publicid,"\n";
+$app = ${$rules->{App}}{$publicid};
+print "Charset : ",$charset,"\n";
+body();
+close IN;
+
+sub getmb32 {
+	my $byte;
+	my $val = 0;
+	do
+	{
+		$byte = ord getc(IN);
+		$val <<= 7;
+		$val += ($byte & 0x7f);
+	}
+	while (0 != ($byte & 0x80));
+	return $val
+}
+
+sub get_version {
+	my $v = ord getc(IN);
+	$version = (1+$v/16) . "." . ($v%16);
+}
+
+sub get_publicid {
+	$publicid = getmb32();
+	if ($publicid) {
+    	while (my ($key,$value) = each %{$rules->{PublicIdentifiers}}) {
+			if ($value == $publicid) {
+				$publicid = $key;
+				last;
+			}
+		}
+	} else {
+		$publicid_idx = getmb32();
+	}
+}
+
+sub get_charset {
+	$charset = getmb32();
+	if ($charset) {
+    	while (my ($key,$value) = each %{$rules->{CharacterSets}}) {
+			if ($value == $charset) {
+				$charset = $key;
+				last;
+			}
+		}
+	} else {
+		$charset = "unknown encoding";
+	}
+}
+
+sub get_strtbl {
+	my $len = getmb32();
+	if ($len) {
+		my $tmp;
+		read(IN,$tmp,$len);
+		@strtbl = split //,$tmp;
+	}
+}
+
+sub get_str_t {
+	my ($index) = @_;
+	my @list = ();
+	while (ord (my $ch = $strtbl[$index++]) != 0) {
+		push @list, $ch;
+	}
+	return join '',@list;
+}
+
+sub body {
+	$codepage_tag = 0;
+	$codepage_attr = 0;
+	my $tag = get_tag();
+	while ($tag == PI) {
+		print $depth,"PI\n";
+		my $attr = get_attr();
+		while ($attr != _END) {
+			attribute($attr,"  ");
+			$attr = get_attr();
+			print "\n" unless ($attr & 0x80 or $attr == STR_I);
+		}
+		$tag = get_tag();
+	}
+	element($tag,"");
+}
+
+sub element {
+	my ($tag,$depth) = @_;
+
+	my $token = $tag & TAG_MASK;
+	if ($token == LITERAL) {
+		my $index = getmb32();
+		print $depth,get_str_t($index),"\n";
+	} else {
+		$token += 256 * $codepage_tag;
+		my $name = "TAG " . $token;
+		foreach (@{$app->{TagTokens}}) {
+			if ($token == $_->{ext_token}) {
+				$name = $_->{name};
+			}
+		}
+        print $depth,$name,"\n";
+	}
+	if ($tag & HAS_ATTR) {
+		my $attr = get_attr();
+		while ($attr != _END) {
+			attribute($attr,$depth . "  ");
+			$attr = get_attr();
+			print "\n" unless ($attr & 0x80 or $attr == STR_I);
+		}
+	}
+	if ($tag & HAS_CHILD) {
+		while ((my $child = get_tag()) != _END) {
+			content($child,$depth . "\t");
+		}
+	}
+}
+
+sub content {
+	my ($tag,$depth) = @_;
+
+	if      ($tag == ENTITY) {
+		my $entcode = getmb32();
+		print $depth,sprintf("\\u%X\n",$entcode);
+	} elsif ($tag == STR_I) {
+		print $depth,"'",get_str_i(),"'\n";
+	} elsif ($tag == EXT_I_0) {
+		print $depth,"EXT_I_0 '",get_str_i(),"'\n";
+	} elsif ($tag == EXT_I_1) {
+		print $depth,"EXT_I_1 '",get_str_i(),"'\n";
+	} elsif ($tag == EXT_I_2) {
+		print $depth,"EXT_I_2 '",get_str_i(),"'\n";
+	} elsif ($tag == PI) {
+		print $depth,"PI\n";
+		my $attr = get_attr();
+		while ($attr != _END) {
+			attribute($attr,$depth . "  ");
+			$attr = get_attr();
+			print "\n" unless ($attr & 0x80 or $attr == STR_I);
+		}
+	} elsif ($tag == EXT_T_0) {
+		my $index = getmb32();
+		print $depth,"EXT_T_0 '",get_str_t($index),"'\n";
+	} elsif ($tag == EXT_T_1) {
+		my $index = getmb32();
+		print $depth,"EXT_T_1 '",get_str_t($index),"'\n";
+	} elsif ($tag == EXT_T_2) {
+		my $index = getmb32();
+		print $depth,"EXT_T_2 '",get_str_t($index),"'\n";
+	} elsif ($tag == STR_T) {
+		my $index = getmb32();
+		print $depth,"'",get_str_t($index),"'\n";
+	} elsif ($tag == EXT_0) {
+		print $depth,"EXT_0\n";
+	} elsif ($tag == EXT_1) {
+		print $depth,"EXT_1\n";
+	} elsif ($tag == EXT_2) {
+		print $depth,"EXT_2\n";
+	} elsif ($tag == OPAQUE) {
+		my $data = get_opaque();
+		print $depth,"Opaque\n";
+	} else {
+		element($tag,$depth);		# LITERAL and all TAG
+	}
+}
+
+sub attribute {
+	my ($attr,$depth) = @_;
+
+	if      ($attr == ENTITY) {		# ATTRV
+		my $entcode = getmb32();
+		print sprintf("\\u%X ",$entcode);
+	} elsif ($attr == STR_I) {		# ATTRV
+		print "'",get_str_i(),"' ";
+	} elsif ($attr == LITERAL) {	# ATTRS
+		my $index = getmb32();
+		print $depth,get_str_t($index)," = ";
+	} elsif ($attr == EXT_I_0) {	# ATTRV
+		print "EXT_I_0 '",get_str_i(),"' ";
+	} elsif ($attr == EXT_I_1) {	# ATTRV
+		print "EXT_I_1 '",get_str_i(),"' ";
+	} elsif ($attr == EXT_I_2) {	# ATTRV
+		print "EXT_I_2 '",get_str_i(),"' ";
+	} elsif ($attr == EXT_T_0) {	# ATTRV
+		my $index = getmb32();
+		print "EXT_T_0 '",get_str_t($index),"' ";
+	} elsif ($attr == EXT_T_1) {	# ATTRV
+		my $index = getmb32();
+		print "EXT_T_1 '",get_str_t($index),"' ";
+	} elsif ($attr == EXT_T_2) {	# ATTRV
+		my $index = getmb32();
+		print "EXT_T_2 '",get_str_t($index),"' ";
+	} elsif ($attr == STR_T) {		# ATTRV
+		my $index = getmb32();
+		print "'",get_str_t($index),"' ";
+	} elsif ($attr == EXT_0) {		# ATTRV
+		print "EXT_0 ";
+	} elsif ($attr == EXT_1) {		# ATTRV
+		print "EXT_1 ";
+	} elsif ($attr == EXT_2) {		# ATTRV
+		print "EXT_2 ";
+	} elsif ($attr == OPAQUE) {		# ATTRV
+		my $data = get_opaque();
+		print $depth,"opaque\n";
+	} else {
+		my $token = $attr & ATTR_MASK;
+		$token += 256 * $codepage_attr;
+		if ($attr & 0x80) {
+			my $value = "ATTRV " . $token;
+			foreach (@{$app->{AttrValueTokens}}) {
+				if ($token == $_->{ext_token}) {
+					$value = $_->{value};
+				}
+			}
+            print "'",$value,"' ";
+		} else {
+			my $name = "ATTRS " . $token;
+			my $value = undef;
+			foreach (@{$app->{AttrStartTokens}}) {
+				if ($token == $_->{ext_token}) {
+					$name = $_->{name};
+					$value = $_->{value} if (exists $_->{value});
+				}
+			}
+			print $depth,$name," = ";
+			print "'",$value,"' " if (defined $value);
+		}
+	}
+}
+
+sub get_tag {
+	my $ch = getc(IN);
+	die unless (defined $ch);
+	my $tag = ord $ch;
+	if ($tag == SWITCH_PAGE) {
+		$codepage_tag = ord getc(IN);
+		$tag = ord getc(IN);
+	}
+#	print sprintf "TAG 0x%X\n",$tag;
+	return $tag;
+}
+
+sub get_attr {
+	my $ch = getc(IN);
+	die unless (defined $ch);
+	my $attr = ord $ch;
+	if ($attr == SWITCH_PAGE) {
+		$codepage_attr = ord getc(IN);
+		$attr = ord getc(IN);
+	}
+#	print sprintf "ATTR 0x%X\n",$attr;
+	return $attr;
+}
+
+sub get_str_i {
+	my $str;
+	my $ch = getc(IN);
+	die unless (defined $ch);
+    while (ord $ch != 0) {
+      	$str .= $ch;
+		$ch = getc(IN);
+		die unless (defined $ch);
+    }
+    return $str;
+}
+
+sub get_opaque {
+	my $data;
+	my $len = getmb32();
+	read(IN,$data,$len);
+	return $data;
+}
+
+__END__
+
+=head1 NAME
+
+xmld - XML Dissambler
+
+=head1 SYNOPSYS
+
+ xmld I<file>
+
+=head1 DESCRIPTION
+
+B<xmld> dissambles binarized XML files to a text ; only for trivial case.
+
+The file WAP/wbrules.xml configures this tool for all known DTD.
+
+B<xmld> needs Data::Dumper and XML::DOM modules.
+
+WAP Specifications, including Binary XML Content Format (WBXML)
+ are available on E<lt>http://www.wapforum.org/E<gt>.
+
+=head1 SEE ALSO
+
+ xmlc
+
+=head1 AUTHOR
+
+Francois PERRAD E<lt>perrad@besancon.sema.slb.comE<gt>
+
+=cut

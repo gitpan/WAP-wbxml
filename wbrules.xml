@@ -1,0 +1,1215 @@
+<?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
+<!DOCTYPE wbxml:wbxml [
+  <!--  Copyright 2000,2001 F.Perrad, All rights reserved. -->
+  <!ELEMENT wbxml:wbxml ( wbxml:CharacterSets, wbxml:PublicIdentifiers, wbxml:App+ ) >
+  <!ATTLIST wbxml:wbxml
+                version   NMTOKEN   #REQUIRED >
+  <!ELEMENT wbxml:CharacterSets ( wbxml:CharacterSet* ) >
+  <!ELEMENT wbxml:CharacterSet EMPTY >
+  <!ATTLIST wbxml:CharacterSet
+            MIBenum   NMTOKEN   #REQUIRED
+            name      NMTOKEN   #REQUIRED >
+  <!ELEMENT wbxml:PublicIdentifiers ( wbxml:PublicIdentifier* ) >
+  <!ELEMENT wbxml:PublicIdentifier EMPTY >
+  <!ATTLIST wbxml:PublicIdentifier
+            value     NMTOKEN   #REQUIRED
+            name      CDATA     #REQUIRED >
+  <!ELEMENT wbxml:App ( wbxml:TagTokens, wbxml:AttrStartTokens, wbxml:AttrValueTokens ) >
+  <!ATTLIST wbxml:App
+            publicid  CDATA     #REQUIRED
+            use-default         (no|yes)            #IMPLIED
+            variable-subs       (no|yes)            #IMPLIED
+            textual-ext         NMTOKEN             #IMPLIED
+            tokenised-ext       NMTOKEN             #IMPLIED
+            xml-space           (default|preserve)  #IMPLIED >
+  <!ELEMENT wbxml:TagTokens ( wbxml:TAG* ) >
+  <!ELEMENT wbxml:TAG EMPTY >
+  <!ATTLIST wbxml:TAG
+            token     NMTOKEN   #REQUIRED
+            name      NMTOKEN   #REQUIRED
+            codepage  NMTOKEN   #IMPLIED >
+  <!ELEMENT wbxml:AttrStartTokens ( wbxml:ATTRSTART* ) >
+  <!ELEMENT wbxml:ATTRSTART EMPTY >
+  <!ATTLIST wbxml:ATTRSTART
+            token     NMTOKEN   #REQUIRED
+            name      NMTOKEN   #REQUIRED
+            value     CDATA     #IMPLIED
+            codepage  NMTOKEN   #IMPLIED
+            default   CDATA     #IMPLIED
+            fixed     CDATA     #IMPLIED
+            validate  (std|length|vdata)            #IMPLIED
+            encoding  (std|iso-8601)                #IMPLIED >
+  <!ELEMENT wbxml:AttrValueTokens ( wbxml:ATTRVALUE* ) >
+  <!ELEMENT wbxml:ATTRVALUE EMPTY >
+  <!ATTLIST wbxml:ATTRVALUE
+            token     NMTOKEN   #REQUIRED
+            value     CDATA     #REQUIRED
+            codepage  NMTOKEN   #IMPLIED >
+  <!ENTITY  quot      "&#34;">
+  <!ENTITY  amp       "&#38;#38;">
+  <!ENTITY  apos      "&#39;">
+  <!ENTITY  lt        "&#38;#60;">
+  <!ENTITY  gt        "&#62;">
+]>
+
+<wbxml:wbxml version="1.3">
+   <!--  see: Binary XML Content Format, Version 1.3, 25 July 2001 -->
+   <!--       Wireless Application Protocol : WAP-192-WBXML-20010725-a -->
+   <wbxml:CharacterSets>
+      <!-- see: section 5.2 "Character Encoding" in WBXML 1.3 -->
+      <!-- MIBenum="0" Unknown encoding -->
+      <!-- see:  ftp://ftp.isi.edu/in-notes/iana/assignments/character-sets -->
+      <wbxml:CharacterSet         MIBenum="3"         name="US-ASCII"/>
+      <wbxml:CharacterSet         MIBenum="4"         name="ISO-8859-1"/>
+      <wbxml:CharacterSet         MIBenum="5"         name="ISO-8859-2"/>
+      <wbxml:CharacterSet         MIBenum="6"         name="ISO-8859-3"/>
+      <wbxml:CharacterSet         MIBenum="7"         name="ISO-8859-4"/>
+      <wbxml:CharacterSet         MIBenum="8"         name="ISO-8859-5"/>
+      <wbxml:CharacterSet         MIBenum="9"         name="ISO-8859-6"/>
+      <wbxml:CharacterSet         MIBenum="10"        name="ISO-8859-7"/>
+      <wbxml:CharacterSet         MIBenum="11"        name="ISO-8859-8"/>
+      <wbxml:CharacterSet         MIBenum="12"        name="ISO-8859-9"/>
+      <wbxml:CharacterSet         MIBenum="17"        name="Shift_JIS"/>
+      <wbxml:CharacterSet         MIBenum="106"       name="UTF-8"/>
+      <wbxml:CharacterSet         MIBenum="1000"      name="ISO-10646-UCS-2"/>
+      <wbxml:CharacterSet         MIBenum="2026"      name="Big5"/>
+   </wbxml:CharacterSets>
+   <wbxml:PublicIdentifiers>
+      <!-- see: section 7.2 "Public Identifiers" in WBXML 1.3 -->
+      <!-- value="1"  Unknown or missing public identifier -->
+      <!-- if no value, publicid is encoding as string -->
+      <wbxml:PublicIdentifier     value="2"   name="-//WAPFORUM//DTD WML 1.0//EN"/>
+      <!--   DEPRECATED           value="3"   name="-//WAPFORUM//DTD WTA 1.0//EN" -->
+      <wbxml:PublicIdentifier     value="4"   name="-//WAPFORUM//DTD WML 1.1//EN"/>
+      <wbxml:PublicIdentifier     value="5"   name="-//WAPFORUM//DTD SI 1.0//EN"/>
+      <wbxml:PublicIdentifier     value="6"   name="-//WAPFORUM//DTD SL 1.0//EN"/>
+      <wbxml:PublicIdentifier     value="7"   name="-//WAPFORUM//DTD CO 1.0//EN"/>
+      <wbxml:PublicIdentifier     value="8"   name="-//WAPFORUM//DTD CHANNEL 1.1//EN"/>
+      <wbxml:PublicIdentifier     value="9"   name="-//WAPFORUM//DTD WML 1.2//EN"/>
+      <wbxml:PublicIdentifier     value="A"   name="-//WAPFORUM//DTD WML 1.3//EN"/>
+      <wbxml:PublicIdentifier     value="B"   name="-//WAPFORUM//DTD PROV 1.0//EN"/>
+      <wbxml:PublicIdentifier     value="C"   name="-//WAPFORUM//DTD WTA-WML 1.2//EN"/>
+      <wbxml:PublicIdentifier     value="D"   name="-//WAPFORUM//DTD CHANNEL 1.2//EN"/>
+      <!-- values E-7F : Reserved -->
+   </wbxml:PublicIdentifiers>
+   <wbxml:App publicid="-//WAPFORUM//DTD SI 1.0//EN"
+              use-default="yes"
+              textual-ext="si"
+              tokenised-ext="sic"
+              xml-space="default" >
+      <!-- see: WAP Service Indication, Version 08-Nov-1999 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="05"    name="si"/>
+         <wbxml:TAG          token="06"    name="indication"/>
+         <wbxml:TAG          token="07"    name="info"/>
+         <wbxml:TAG          token="08"    name="item"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="action"   value="signal-none"/>
+         <wbxml:ATTRSTART    token="06"    name="action"   value="signal-low"/>
+         <wbxml:ATTRSTART    token="07"    name="action"   value="signal-medium"
+                                           default="indication"/>
+         <wbxml:ATTRSTART    token="08"    name="action"   value="signal-high"/>
+         <wbxml:ATTRSTART    token="09"    name="action"   value="delete"/>
+         <wbxml:ATTRSTART    token="0A"    name="created"
+                                           encoding="iso-8601"/>
+         <wbxml:ATTRSTART    token="0B"    name="href"/>
+         <wbxml:ATTRSTART    token="0C"    name="href"     value="http://"/>
+         <wbxml:ATTRSTART    token="0D"    name="href"     value="http://www."/>
+         <wbxml:ATTRSTART    token="0E"    name="href"     value="https://"/>
+         <wbxml:ATTRSTART    token="0F"    name="href"     value="https://www."/>
+         <wbxml:ATTRSTART    token="10"    name="si-expires"
+                                           encoding="iso-8601"/>
+         <wbxml:ATTRSTART    token="11"    name="si-id"/>
+         <wbxml:ATTRSTART    token="12"    name="class"/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD SL 1.0//EN"
+              use-default="yes"
+              textual-ext="sl"
+              tokenised-ext="slc"
+              xml-space="default" >
+      <!-- see: WAP Service Loading, Version 08-Nov-1999 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="05"    name="sl"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="action"   value="execute-low"
+                                           default="sl"/>
+         <wbxml:ATTRSTART    token="06"    name="action"   value="execute-high"/>
+         <wbxml:ATTRSTART    token="07"    name="action"   value="cache"/>
+         <wbxml:ATTRSTART    token="08"    name="href"/>
+         <wbxml:ATTRSTART    token="09"    name="href"     value="http://"/>
+         <wbxml:ATTRSTART    token="0A"    name="href"     value="http://www."/>
+         <wbxml:ATTRSTART    token="0B"    name="href"     value="https://"/>
+         <wbxml:ATTRSTART    token="0C"    name="href"     value="https://www."/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD CO 1.0//EN"
+              textual-ext="co"
+              tokenised-ext="coc"
+              xml-space="default" >
+      <!-- see: WAP Cache Operation, Version 06-Dec-1999 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="05"    name="co"/>
+         <wbxml:TAG          token="06"    name="invalidate-object"/>
+         <wbxml:TAG          token="07"    name="invalidate-service"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="uri"/>
+         <wbxml:ATTRSTART    token="06"    name="uri"      value="http://"/>
+         <wbxml:ATTRSTART    token="07"    name="uri"      value="http://www."/>
+         <wbxml:ATTRSTART    token="08"    name="uri"      value="https://"/>
+         <wbxml:ATTRSTART    token="09"    name="uri"      value="https://www."/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD CHANNEL 1.2//EN"
+              textual-ext="channel"
+              tokenised-ext="channelc"
+              xml-space="default" >
+      <!-- see: WAP WTA, Version 07-Jul-2000 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="05"    name="channel"/>
+         <wbxml:TAG          token="06"    name="title"/>
+         <wbxml:TAG          token="07"    name="abstract"/>
+         <wbxml:TAG          token="08"    name="resource"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="maxspace"/>
+         <wbxml:ATTRSTART    token="06"    name="base"/>
+         <wbxml:ATTRSTART    token="07"    name="href"/>
+         <wbxml:ATTRSTART    token="08"    name="href"     value="http://"/>
+         <wbxml:ATTRSTART    token="09"    name="href"     value="https://"/>
+         <wbxml:ATTRSTART    token="0A"    name="lastmod"/>
+         <wbxml:ATTRSTART    token="0B"    name="etag"/>
+         <wbxml:ATTRSTART    token="0C"    name="md5"/>
+         <wbxml:ATTRSTART    token="0D"    name="success"/>
+         <wbxml:ATTRSTART    token="0E"    name="success"  value="http://"/>
+         <wbxml:ATTRSTART    token="0F"    name="success"  value="https://"/>
+         <wbxml:ATTRSTART    token="10"    name="failure"/>
+         <wbxml:ATTRSTART    token="11"    name="failure"  value="http://"/>
+         <wbxml:ATTRSTART    token="12"    name="failure"  value="https://"/>
+         <wbxml:ATTRSTART    token="13"    name="eventid"/>
+         <wbxml:ATTRSTART    token="14"    name="eventid"  value="wtaev-"/>
+         <wbxml:ATTRSTART    token="15"    name="channelid"/>
+         <wbxml:ATTRSTART    token="16"    name="useraccessible"/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <!-- empty -->
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD CHANNEL 1.1//EN"
+              textual-ext="channel"
+              tokenised-ext="channelc"
+              xml-space="default" >
+      <!-- see: WAP WTA, Version 08-Nov-1999 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="05"    name="channel"/>
+         <wbxml:TAG          token="06"    name="title"/>
+         <wbxml:TAG          token="07"    name="abstract"/>
+         <wbxml:TAG          token="08"    name="resource"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="maxspace"/>
+         <wbxml:ATTRSTART    token="06"    name="base"/>
+         <wbxml:ATTRSTART    token="07"    name="href"/>
+         <wbxml:ATTRSTART    token="08"    name="href"     value="http://"/>
+         <wbxml:ATTRSTART    token="09"    name="href"     value="https://"/>
+         <wbxml:ATTRSTART    token="0A"    name="lastmod"/>
+         <wbxml:ATTRSTART    token="0B"    name="etag"/>
+         <wbxml:ATTRSTART    token="0C"    name="md5"/>
+         <wbxml:ATTRSTART    token="0D"    name="success"/>
+         <wbxml:ATTRSTART    token="0E"    name="success"  value="http://"/>
+         <wbxml:ATTRSTART    token="0F"    name="success"  value="https://"/>
+         <wbxml:ATTRSTART    token="10"    name="failure"/>
+         <wbxml:ATTRSTART    token="11"    name="failure"  value="http://"/>
+         <wbxml:ATTRSTART    token="12"    name="failure"  value="https://"/>
+         <wbxml:ATTRSTART    token="13"    name="EventId"/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <!-- empty -->
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.3//EN"
+              use-default="yes"
+              variable-subs="yes"
+              textual-ext="wml"
+              tokenised-ext="wmlc"
+              xml-space="default" >
+      <!-- see: WAP WML, Version 19-Feb-2000 -->
+      <!--      Wireless Markup Language Specification, Version 1.3 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="1C"    name="a"/>
+         <wbxml:TAG          token="22"    name="anchor"/>
+         <wbxml:TAG          token="23"    name="access"/>
+         <wbxml:TAG          token="24"    name="b"/>
+         <wbxml:TAG          token="25"    name="big"/>
+         <wbxml:TAG          token="26"    name="br"/>
+         <wbxml:TAG          token="27"    name="card"/>
+         <wbxml:TAG          token="28"    name="do"/>
+         <wbxml:TAG          token="29"    name="em"/>
+         <wbxml:TAG          token="2A"    name="fielset"/>
+         <wbxml:TAG          token="2B"    name="go"/>
+         <wbxml:TAG          token="2C"    name="head"/>
+         <wbxml:TAG          token="2D"    name="i"/>
+         <wbxml:TAG          token="2E"    name="img"/>
+         <wbxml:TAG          token="2F"    name="input"/>
+         <wbxml:TAG          token="30"    name="meta"/>
+         <wbxml:TAG          token="31"    name="noop"/>
+         <wbxml:TAG          token="20"    name="p"/>
+         <wbxml:TAG          token="21"    name="postfield"/>
+         <wbxml:TAG          token="1B"    name="pre"/>
+         <wbxml:TAG          token="32"    name="prev"/>
+         <wbxml:TAG          token="33"    name="onevent"/>
+         <wbxml:TAG          token="34"    name="optgroup"/>
+         <wbxml:TAG          token="35"    name="option"/>
+         <wbxml:TAG          token="36"    name="refresh"/>
+         <wbxml:TAG          token="37"    name="select"/>
+         <wbxml:TAG          token="3E"    name="setvar"/>
+         <wbxml:TAG          token="38"    name="small"/>
+         <wbxml:TAG          token="39"    name="strong"/>
+         <wbxml:TAG          token="1F"    name="table"/>
+         <wbxml:TAG          token="1D"    name="td"/>
+         <wbxml:TAG          token="3B"    name="template"/>
+         <wbxml:TAG          token="3C"    name="timer"/>
+         <wbxml:TAG          token="1E"    name="tr"/>
+         <wbxml:TAG          token="3D"    name="u"/>
+         <wbxml:TAG          token="3F"    name="wml"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="accept-charset"/>
+         <wbxml:ATTRSTART    token="5E"    name="accesskey"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="52"    name="align"/>
+         <wbxml:ATTRSTART    token="06"    name="align"    value="bottom"
+                                           default="img"/>
+         <wbxml:ATTRSTART    token="07"    name="align"    value="center"/>
+         <wbxml:ATTRSTART    token="08"    name="align"    value="left"
+                                           default="p"/>
+         <wbxml:ATTRSTART    token="09"    name="align"    value="middle"/>
+         <wbxml:ATTRSTART    token="0A"    name="align"    value="right"/>
+         <wbxml:ATTRSTART    token="0B"    name="align"    value="top"/>
+         <wbxml:ATTRSTART    token="0C"    name="alt"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="64"    name="cache-control"
+                      value="no-cache"/>
+         <wbxml:ATTRSTART    token="54"    name="class"/>
+         <wbxml:ATTRSTART    token="53"    name="columns"/>
+         <wbxml:ATTRSTART    token="0D"    name="content"/>
+         <wbxml:ATTRSTART    token="5C"    name="content"
+                      value="application/vnd.wap.wmlc;charset="/>
+         <wbxml:ATTRSTART    token="0F"    name="domain"/>
+         <wbxml:ATTRSTART    token="10"    name="emptyok"  value="false"
+                                             default="input"/>
+         <wbxml:ATTRSTART    token="11"    name="emptyok"  value="true"/>
+         <wbxml:ATTRSTART    token="5F"    name="enctype"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="60"    name="enctype"
+                      value="application/x-www-form-urlencoded"
+                                           default="go"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="61"    name="enctype"  value="multipart/form-data"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="12"    name="format"/>
+         <wbxml:ATTRSTART    token="56"    name="forua"    value="false"
+                                           default="meta"/>
+         <wbxml:ATTRSTART    token="57"    name="forua"    value="true"/>
+         <wbxml:ATTRSTART    token="13"    name="height"   validate="length"/>
+         <wbxml:ATTRSTART    token="4A"    name="href"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4B"    name="href"     value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4C"    name="href"     value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="14"    name="hspace"   validate="length"/>
+         <wbxml:ATTRSTART    token="5A"    name="http-equiv"/>
+         <wbxml:ATTRSTART    token="5B"    name="http-equiv"   value="Content-Type"/>
+         <wbxml:ATTRSTART    token="5D"    name="http-equiv"   value="Expires"/>
+         <wbxml:ATTRSTART    token="55"    name="id"/>
+         <wbxml:ATTRSTART    token="15"    name="ivalue"   validate="vdata"/>
+         <wbxml:ATTRSTART    token="16"    name="iname"/>
+         <wbxml:ATTRSTART    token="18"    name="label"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="19"    name="localsrc" validate="vdata"/>
+         <wbxml:ATTRSTART    token="1A"    name="maxlength"/>
+         <wbxml:ATTRSTART    token="1B"    name="method"   value="get"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="1C"    name="method"   value="post"/>
+         <wbxml:ATTRSTART    token="1D"    name="mode"     value="nowrap"/>
+         <wbxml:ATTRSTART    token="1E"    name="mode"     value="wrap"/>
+         <wbxml:ATTRSTART    token="1F"    name="multiple" value="false"
+                                           default="select"/>
+         <wbxml:ATTRSTART    token="20"    name="multiple" value="true"/>
+         <wbxml:ATTRSTART    token="21"    name="name"     validate="vdata"/>
+         <wbxml:ATTRSTART    token="22"    name="newcontext"   value="false"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="23"    name="newcontext"   value="true"/>
+         <wbxml:ATTRSTART    token="25"    name="onenterbackward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="26"    name="onenterforward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="24"    name="onpick"   validate="vdata"/>
+         <wbxml:ATTRSTART    token="27"    name="ontimer"  validate="vdata"/>
+         <wbxml:ATTRSTART    token="28"    name="optional" value="false"
+                                           default="do"/>
+         <wbxml:ATTRSTART    token="29"    name="optional" value="true"/>
+         <wbxml:ATTRSTART    token="2A"    name="path"/>
+         <wbxml:ATTRSTART    token="2E"    name="scheme"/>
+         <wbxml:ATTRSTART    token="2F"    name="sendreferer"  value="false"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="30"    name="sendreferer"  value="true"/>
+         <wbxml:ATTRSTART    token="31"    name="size"/>
+         <wbxml:ATTRSTART    token="32"    name="src"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="58"    name="src"      value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="59"    name="src"      value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="33"    name="ordered"  value="true"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="34"    name="ordered"  value="false"/>
+         <wbxml:ATTRSTART    token="35"    name="tabindex"/>
+         <wbxml:ATTRSTART    token="36"    name="title"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="37"    name="type"/>
+         <wbxml:ATTRSTART    token="38"    name="type"     value="accept"/>
+         <wbxml:ATTRSTART    token="39"    name="type"     value="delete"/>
+         <wbxml:ATTRSTART    token="3A"    name="type"     value="help"/>
+         <wbxml:ATTRSTART    token="3B"    name="type"     value="password"/>
+         <wbxml:ATTRSTART    token="3C"    name="type"     value="onpick"/>
+         <wbxml:ATTRSTART    token="3D"    name="type"     value="onenterbackward"/>
+         <wbxml:ATTRSTART    token="3E"    name="type"     value="onenterforward"/>
+         <wbxml:ATTRSTART    token="3F"    name="type"     value="ontimer"/>
+         <wbxml:ATTRSTART    token="45"    name="type"     value="options"/>
+         <wbxml:ATTRSTART    token="46"    name="type"     value="prev"/>
+         <wbxml:ATTRSTART    token="47"    name="type"     value="reset"/>
+         <wbxml:ATTRSTART    token="48"    name="type"     value="text"
+                                           default="input"/>
+         <wbxml:ATTRSTART    token="49"    name="type"     value="vnd."/>
+         <wbxml:ATTRSTART    token="4D"    name="value"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="4E"    name="vspace"   validate="length"/>
+         <wbxml:ATTRSTART    token="4F"    name="width"    validate="length"/>
+         <wbxml:ATTRSTART    token="50"    name="xml:lang"/>
+         <wbxml:ATTRSTART    token="62"    name="xml:space" value="preserve"
+                                           fixed="pre" />
+         <wbxml:ATTRSTART    token="63"    name="xml:space" value="default"/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+         <wbxml:ATTRVALUE    token="89"    value="accept"/>
+         <wbxml:ATTRVALUE    token="8A"    value="bottom"/>
+         <wbxml:ATTRVALUE    token="8B"    value="clear"/>
+         <wbxml:ATTRVALUE    token="8C"    value="delete"/>
+         <wbxml:ATTRVALUE    token="8D"    value="help"/>
+         <wbxml:ATTRVALUE    token="8E"    value="http://"/>
+         <wbxml:ATTRVALUE    token="8F"    value="http://www."/>
+         <wbxml:ATTRVALUE    token="90"    value="https://"/>
+         <wbxml:ATTRVALUE    token="91"    value="https://www."/>
+         <wbxml:ATTRVALUE    token="93"    value="middle"/>
+         <wbxml:ATTRVALUE    token="94"    value="nowrap"/>
+         <wbxml:ATTRVALUE    token="96"    value="onenterbackward"/>
+         <wbxml:ATTRVALUE    token="97"    value="onenterforward"/>
+         <wbxml:ATTRVALUE    token="95"    value="onpick"/>
+         <wbxml:ATTRVALUE    token="98"    value="ontimer"/>
+         <wbxml:ATTRVALUE    token="99"    value="options"/>
+         <wbxml:ATTRVALUE    token="9A"    value="password"/>
+         <wbxml:ATTRVALUE    token="9B"    value="reset"/>
+         <wbxml:ATTRVALUE    token="9D"    value="text"/>
+         <wbxml:ATTRVALUE    token="9E"    value="top"/>
+         <wbxml:ATTRVALUE    token="9F"    value="unknown"/>
+         <wbxml:ATTRVALUE    token="A0"    value="wrap"/>
+         <wbxml:ATTRVALUE    token="A1"    value="www."/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.2//EN"
+              use-default="yes"
+              variable-subs="yes"
+              textual-ext="wml"
+              tokenised-ext="wmlc"
+              xml-space="default" >
+      <!-- see: WAP WML, Version 04-Nov-1999 -->
+      <!--      Wireless Markup Language Specification, Version 1.2 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="1C"    name="a"/>
+         <wbxml:TAG          token="22"    name="anchor"/>
+         <wbxml:TAG          token="23"    name="access"/>
+         <wbxml:TAG          token="24"    name="b"/>
+         <wbxml:TAG          token="25"    name="big"/>
+         <wbxml:TAG          token="26"    name="br"/>
+         <wbxml:TAG          token="27"    name="card"/>
+         <wbxml:TAG          token="28"    name="do"/>
+         <wbxml:TAG          token="29"    name="em"/>
+         <wbxml:TAG          token="2A"    name="fielset"/>
+         <wbxml:TAG          token="2B"    name="go"/>
+         <wbxml:TAG          token="2C"    name="head"/>
+         <wbxml:TAG          token="2D"    name="i"/>
+         <wbxml:TAG          token="2E"    name="img"/>
+         <wbxml:TAG          token="2F"    name="input"/>
+         <wbxml:TAG          token="30"    name="meta"/>
+         <wbxml:TAG          token="31"    name="noop"/>
+         <wbxml:TAG          token="20"    name="p"/>
+         <wbxml:TAG          token="21"    name="postfield"/>
+         <wbxml:TAG          token="1B"    name="pre"/>
+         <wbxml:TAG          token="32"    name="prev"/>
+         <wbxml:TAG          token="33"    name="onevent"/>
+         <wbxml:TAG          token="34"    name="optgroup"/>
+         <wbxml:TAG          token="35"    name="option"/>
+         <wbxml:TAG          token="36"    name="refresh"/>
+         <wbxml:TAG          token="37"    name="select"/>
+         <wbxml:TAG          token="3E"    name="setvar"/>
+         <wbxml:TAG          token="38"    name="small"/>
+         <wbxml:TAG          token="39"    name="strong"/>
+         <wbxml:TAG          token="1F"    name="table"/>
+         <wbxml:TAG          token="1D"    name="td"/>
+         <wbxml:TAG          token="3B"    name="template"/>
+         <wbxml:TAG          token="3C"    name="timer"/>
+         <wbxml:TAG          token="1E"    name="tr"/>
+         <wbxml:TAG          token="3D"    name="u"/>
+         <wbxml:TAG          token="3F"    name="wml"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="accept-charset"/>
+         <wbxml:ATTRSTART    token="5E"    name="accesskey"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="52"    name="align"/>
+         <wbxml:ATTRSTART    token="06"    name="align"    value="bottom"
+                                           default="img"/>
+         <wbxml:ATTRSTART    token="07"    name="align"    value="center"/>
+         <wbxml:ATTRSTART    token="08"    name="align"    value="left"
+                                           default="p"/>
+         <wbxml:ATTRSTART    token="09"    name="align"    value="middle"/>
+         <wbxml:ATTRSTART    token="0A"    name="align"    value="right"/>
+         <wbxml:ATTRSTART    token="0B"    name="align"    value="top"/>
+         <wbxml:ATTRSTART    token="0C"    name="alt"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="54"    name="class"/>
+         <wbxml:ATTRSTART    token="53"    name="columns"/>
+         <wbxml:ATTRSTART    token="0D"    name="content"/>
+         <wbxml:ATTRSTART    token="5C"    name="content"
+                      value="application/vnd.wap.wmlc;charset="/>
+         <wbxml:ATTRSTART    token="0F"    name="domain"/>
+         <wbxml:ATTRSTART    token="10"    name="emptyok"  value="false"
+                                             default="input"/>
+         <wbxml:ATTRSTART    token="11"    name="emptyok"  value="true"/>
+         <wbxml:ATTRSTART    token="5F"    name="enctype"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="60"    name="enctype"
+                      value="application/x-www-form-urlencoded"
+                                           default="go"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="61"    name="enctype"  value="multipart/form-data"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="12"    name="format"/>
+         <wbxml:ATTRSTART    token="56"    name="forua"    value="false"
+                                           default="meta"/>
+         <wbxml:ATTRSTART    token="57"    name="forua"    value="true"/>
+         <wbxml:ATTRSTART    token="13"    name="height"   validate="length"/>
+         <wbxml:ATTRSTART    token="4A"    name="href"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4B"    name="href"     value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4C"    name="href"     value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="14"    name="hspace"   validate="length"/>
+         <wbxml:ATTRSTART    token="5A"    name="http-equiv"/>
+         <wbxml:ATTRSTART    token="5B"    name="http-equiv"   value="Content-Type"/>
+         <wbxml:ATTRSTART    token="5D"    name="http-equiv"   value="Expires"/>
+         <wbxml:ATTRSTART    token="55"    name="id"/>
+         <wbxml:ATTRSTART    token="15"    name="ivalue"   validate="vdata"/>
+         <wbxml:ATTRSTART    token="16"    name="iname"/>
+         <wbxml:ATTRSTART    token="18"    name="label"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="19"    name="localsrc" validate="vdata"/>
+         <wbxml:ATTRSTART    token="1A"    name="maxlength"/>
+         <wbxml:ATTRSTART    token="1B"    name="method"   value="get"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="1C"    name="method"   value="post"/>
+         <wbxml:ATTRSTART    token="1D"    name="mode"     value="nowrap"/>
+         <wbxml:ATTRSTART    token="1E"    name="mode"     value="wrap"/>
+         <wbxml:ATTRSTART    token="1F"    name="multiple" value="false"
+                                           default="select"/>
+         <wbxml:ATTRSTART    token="20"    name="multiple" value="true"/>
+         <wbxml:ATTRSTART    token="21"    name="name"     validate="vdata"/>
+         <wbxml:ATTRSTART    token="22"    name="newcontext"   value="false"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="23"    name="newcontext"   value="true"/>
+         <wbxml:ATTRSTART    token="25"    name="onenterbackward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="26"    name="onenterforward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="24"    name="onpick"   validate="vdata"/>
+         <wbxml:ATTRSTART    token="27"    name="ontimer"  validate="vdata"/>
+         <wbxml:ATTRSTART    token="28"    name="optional" value="false"
+                                           default="do"/>
+         <wbxml:ATTRSTART    token="29"    name="optional" value="true"/>
+         <wbxml:ATTRSTART    token="2A"    name="path"/>
+         <wbxml:ATTRSTART    token="2E"    name="scheme"/>
+         <wbxml:ATTRSTART    token="2F"    name="sendreferer"  value="false"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="30"    name="sendreferer"  value="true"/>
+         <wbxml:ATTRSTART    token="31"    name="size"/>
+         <wbxml:ATTRSTART    token="32"    name="src"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="58"    name="src"      value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="59"    name="src"      value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="33"    name="ordered"  value="true"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="34"    name="ordered"  value="false"/>
+         <wbxml:ATTRSTART    token="35"    name="tabindex"/>
+         <wbxml:ATTRSTART    token="36"    name="title"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="37"    name="type"/>
+         <wbxml:ATTRSTART    token="38"    name="type"     value="accept"/>
+         <wbxml:ATTRSTART    token="39"    name="type"     value="delete"/>
+         <wbxml:ATTRSTART    token="3A"    name="type"     value="help"/>
+         <wbxml:ATTRSTART    token="3B"    name="type"     value="password"/>
+         <wbxml:ATTRSTART    token="3C"    name="type"     value="onpick"/>
+         <wbxml:ATTRSTART    token="3D"    name="type"     value="onenterbackward"/>
+         <wbxml:ATTRSTART    token="3E"    name="type"     value="onenterforward"/>
+         <wbxml:ATTRSTART    token="3F"    name="type"     value="ontimer"/>
+         <wbxml:ATTRSTART    token="45"    name="type"     value="options"/>
+         <wbxml:ATTRSTART    token="46"    name="type"     value="prev"/>
+         <wbxml:ATTRSTART    token="47"    name="type"     value="reset"/>
+         <wbxml:ATTRSTART    token="48"    name="type"     value="text"
+                                           default="input"/>
+         <wbxml:ATTRSTART    token="49"    name="type"     value="vnd."/>
+         <wbxml:ATTRSTART    token="4D"    name="value"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="4E"    name="vspace"   validate="length"/>
+         <wbxml:ATTRSTART    token="4F"    name="width"    validate="length"/>
+         <wbxml:ATTRSTART    token="50"    name="xml:lang"/>
+         <wbxml:ATTRSTART    token="00"    name="xml:space" value="preserve"
+                                           fixed="pre" />
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+         <wbxml:ATTRVALUE    token="89"    value="accept"/>
+         <wbxml:ATTRVALUE    token="8A"    value="bottom"/>
+         <wbxml:ATTRVALUE    token="8B"    value="clear"/>
+         <wbxml:ATTRVALUE    token="8C"    value="delete"/>
+         <wbxml:ATTRVALUE    token="8D"    value="help"/>
+         <wbxml:ATTRVALUE    token="8E"    value="http://"/>
+         <wbxml:ATTRVALUE    token="8F"    value="http://www."/>
+         <wbxml:ATTRVALUE    token="90"    value="https://"/>
+         <wbxml:ATTRVALUE    token="91"    value="https://www."/>
+         <wbxml:ATTRVALUE    token="93"    value="middle"/>
+         <wbxml:ATTRVALUE    token="94"    value="nowrap"/>
+         <wbxml:ATTRVALUE    token="96"    value="onenterbackward"/>
+         <wbxml:ATTRVALUE    token="97"    value="onenterforward"/>
+         <wbxml:ATTRVALUE    token="95"    value="onpick"/>
+         <wbxml:ATTRVALUE    token="98"    value="ontimer"/>
+         <wbxml:ATTRVALUE    token="99"    value="options"/>
+         <wbxml:ATTRVALUE    token="9A"    value="password"/>
+         <wbxml:ATTRVALUE    token="9B"    value="reset"/>
+         <wbxml:ATTRVALUE    token="9D"    value="text"/>
+         <wbxml:ATTRVALUE    token="9E"    value="top"/>
+         <wbxml:ATTRVALUE    token="9F"    value="unknown"/>
+         <wbxml:ATTRVALUE    token="A0"    value="wrap"/>
+         <wbxml:ATTRVALUE    token="A1"    value="www."/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.1//EN"
+              use-default="yes"
+              variable-subs="yes"
+              textual-ext="wml"
+              tokenised-ext="wmlc"
+              xml-space="default" >
+      <!-- see: WAP WML, Version 06-Jun-1999 -->
+      <!--      Wireless Markup Language Specification, Version 1.1 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="1C"    name="a"/>
+         <wbxml:TAG          token="22"    name="anchor"/>
+         <wbxml:TAG          token="23"    name="access"/>
+         <wbxml:TAG          token="24"    name="b"/>
+         <wbxml:TAG          token="25"    name="big"/>
+         <wbxml:TAG          token="26"    name="br"/>
+         <wbxml:TAG          token="27"    name="card"/>
+         <wbxml:TAG          token="28"    name="do"/>
+         <wbxml:TAG          token="29"    name="em"/>
+         <wbxml:TAG          token="2A"    name="fielset"/>
+         <wbxml:TAG          token="2B"    name="go"/>
+         <wbxml:TAG          token="2C"    name="head"/>
+         <wbxml:TAG          token="2D"    name="i"/>
+         <wbxml:TAG          token="2E"    name="img"/>
+         <wbxml:TAG          token="2F"    name="input"/>
+         <wbxml:TAG          token="30"    name="meta"/>
+         <wbxml:TAG          token="31"    name="noop"/>
+         <wbxml:TAG          token="20"    name="p"/>
+         <wbxml:TAG          token="21"    name="postfield"/>
+         <wbxml:TAG          token="32"    name="prev"/>
+         <wbxml:TAG          token="33"    name="onevent"/>
+         <wbxml:TAG          token="34"    name="optgroup"/>
+         <wbxml:TAG          token="35"    name="option"/>
+         <wbxml:TAG          token="36"    name="refresh"/>
+         <wbxml:TAG          token="37"    name="select"/>
+         <wbxml:TAG          token="3E"    name="setvar"/>
+         <wbxml:TAG          token="38"    name="small"/>
+         <wbxml:TAG          token="39"    name="strong"/>
+         <wbxml:TAG          token="1F"    name="table"/>
+         <wbxml:TAG          token="1D"    name="td"/>
+         <wbxml:TAG          token="3B"    name="template"/>
+         <wbxml:TAG          token="3C"    name="timer"/>
+         <wbxml:TAG          token="1E"    name="tr"/>
+         <wbxml:TAG          token="3D"    name="u"/>
+         <wbxml:TAG          token="3F"    name="wml"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="accept-charset"/>
+         <wbxml:ATTRSTART    token="52"    name="align"/>
+         <wbxml:ATTRSTART    token="06"    name="align"    value="bottom"
+                                           default="img"/>
+         <wbxml:ATTRSTART    token="07"    name="align"    value="center"/>
+         <wbxml:ATTRSTART    token="08"    name="align"    value="left"
+                                           default="p"/>
+         <wbxml:ATTRSTART    token="09"    name="align"    value="middle"/>
+         <wbxml:ATTRSTART    token="0A"    name="align"    value="right"/>
+         <wbxml:ATTRSTART    token="0B"    name="align"    value="top"/>
+         <wbxml:ATTRSTART    token="0C"    name="alt"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="54"    name="class"/>
+         <wbxml:ATTRSTART    token="53"    name="columns"/>
+         <wbxml:ATTRSTART    token="0D"    name="content"/>
+         <wbxml:ATTRSTART    token="5C"    name="content"
+                      value="application/vnd.wap.wmlc;charset="/>
+         <wbxml:ATTRSTART    token="0F"    name="domain"/>
+         <wbxml:ATTRSTART    token="10"    name="emptyok"  value="false"
+                                           default="input"/>
+         <wbxml:ATTRSTART    token="11"    name="emptyok"  value="true"/>
+         <wbxml:ATTRSTART    token="12"    name="format"/>
+         <wbxml:ATTRSTART    token="56"    name="forua"    value="false"/>
+         <wbxml:ATTRSTART    token="57"    name="forua"    value="true"/>
+         <wbxml:ATTRSTART    token="13"    name="height"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="4A"    name="href"     value=""
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4B"    name="href"     value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4C"    name="href"     value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="14"    name="hspace"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="5A"    name="http-equiv"/>
+         <wbxml:ATTRSTART    token="5B"    name="http-equiv"   value="Content-Type"/>
+         <wbxml:ATTRSTART    token="5D"    name="http-equiv"   value="Expires"/>
+         <wbxml:ATTRSTART    token="55"    name="id"/>
+         <wbxml:ATTRSTART    token="15"    name="ivalue"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="16"    name="iname"/>
+         <wbxml:ATTRSTART    token="18"    name="label"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="19"    name="localsrc"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="1A"    name="maxlength"/>
+         <wbxml:ATTRSTART    token="1B"    name="method"   value="get"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="1C"    name="method"   value="post"/>
+         <wbxml:ATTRSTART    token="1D"    name="mode"     value="nowrap"/>
+         <wbxml:ATTRSTART    token="1E"    name="mode"     value="wrap"/>
+         <wbxml:ATTRSTART    token="1F"    name="multiple" value="false"
+                                           default="select"/>
+         <wbxml:ATTRSTART    token="20"    name="multiple" value="true"/>
+         <wbxml:ATTRSTART    token="21"    name="name"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="22"    name="newcontext"   value="false"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="23"    name="newcontext"   value="true"/>
+         <wbxml:ATTRSTART    token="25"    name="onenterbackward"/>
+         <wbxml:ATTRSTART    token="26"    name="onenterforward"/>
+         <wbxml:ATTRSTART    token="24"    name="onpick"/>
+         <wbxml:ATTRSTART    token="27"    name="ontimer"/>
+         <wbxml:ATTRSTART    token="28"    name="optional" value="false"
+                                           default="do"/>
+         <wbxml:ATTRSTART    token="29"    name="optional" value="true"/>
+         <wbxml:ATTRSTART    token="2A"    name="path"/>
+         <wbxml:ATTRSTART    token="2E"    name="scheme"/>
+         <wbxml:ATTRSTART    token="2F"    name="sendreferer"  value="false"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="30"    name="sendreferer"  value="true"/>
+         <wbxml:ATTRSTART    token="31"    name="size"/>
+         <wbxml:ATTRSTART    token="32"    name="src"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="58"    name="src"      value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="59"    name="src"      value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="33"    name="ordered"  value="true"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="34"    name="ordered"  value="false"/>
+         <wbxml:ATTRSTART    token="35"    name="tabindex"/>
+         <wbxml:ATTRSTART    token="36"    name="title"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="37"    name="type"/>
+         <wbxml:ATTRSTART    token="38"    name="type"     value="accept"/>
+         <wbxml:ATTRSTART    token="39"    name="type"     value="delete"/>
+         <wbxml:ATTRSTART    token="3A"    name="type"     value="help"/>
+         <wbxml:ATTRSTART    token="3B"    name="type"     value="password"/>
+         <wbxml:ATTRSTART    token="3C"    name="type"     value="onpick"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="3D"    name="type"     value="onenterbackward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="3E"    name="type"     value="onenterforward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="3F"    name="type"     value="ontimer"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="45"    name="type"     value="options"/>
+         <wbxml:ATTRSTART    token="46"    name="type"     value="prev"/>
+         <wbxml:ATTRSTART    token="47"    name="type"     value="reset"/>
+         <wbxml:ATTRSTART    token="48"    name="type"     value="text"
+                                           default="input"/>
+         <wbxml:ATTRSTART    token="49"    name="type"     value="vnd."/>
+         <wbxml:ATTRSTART    token="4D"    name="value"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4E"    name="vspace"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="4F"    name="width"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="50"    name="xml:lang"/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+         <wbxml:ATTRVALUE    token="89"    value="accept"/>
+         <wbxml:ATTRVALUE    token="8A"    value="bottom"/>
+         <wbxml:ATTRVALUE    token="8B"    value="clear"/>
+         <wbxml:ATTRVALUE    token="8C"    value="delete"/>
+         <wbxml:ATTRVALUE    token="8D"    value="help"/>
+         <wbxml:ATTRVALUE    token="8E"    value="http://"/>
+         <wbxml:ATTRVALUE    token="8F"    value="http://www."/>
+         <wbxml:ATTRVALUE    token="90"    value="https://"/>
+         <wbxml:ATTRVALUE    token="91"    value="https://www."/>
+         <wbxml:ATTRVALUE    token="93"    value="middle"/>
+         <wbxml:ATTRVALUE    token="94"    value="nowrap"/>
+         <wbxml:ATTRVALUE    token="96"    value="onenterbackward"/>
+         <wbxml:ATTRVALUE    token="97"    value="onenterforward"/>
+         <wbxml:ATTRVALUE    token="95"    value="onpick"/>
+         <wbxml:ATTRVALUE    token="98"    value="ontimer"/>
+         <wbxml:ATTRVALUE    token="99"    value="options"/>
+         <wbxml:ATTRVALUE    token="9A"    value="password"/>
+         <wbxml:ATTRVALUE    token="9B"    value="reset"/>
+         <wbxml:ATTRVALUE    token="9D"    value="text"/>
+         <wbxml:ATTRVALUE    token="9E"    value="top"/>
+         <wbxml:ATTRVALUE    token="9F"    value="unknown"/>
+         <wbxml:ATTRVALUE    token="A0"    value="wrap"/>
+         <wbxml:ATTRVALUE    token="A1"    value="www."/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.0//EN"
+              use-default="yes"
+              variable-subs="yes"
+              textual-ext="wml"
+              tokenised-ext="wmlc"
+              xml-space="default" >
+      <!-- see: WAP WML, Version 30-Apr-1998 -->
+      <!--      Wireless Markup Language Specification, Version 1.0 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="22"    name="A"/>
+         <wbxml:TAG          token="23"    name="ACCESS"/>
+         <wbxml:TAG          token="24"    name="B"/>
+         <wbxml:TAG          token="25"    name="BIG"/>
+         <wbxml:TAG          token="26"    name="BR"/>
+         <wbxml:TAG          token="27"    name="CARD"/>
+         <wbxml:TAG          token="28"    name="DO"/>
+         <wbxml:TAG          token="29"    name="EM"/>
+         <wbxml:TAG          token="2A"    name="FIELSET"/>
+         <wbxml:TAG          token="2B"    name="GO"/>
+         <wbxml:TAG          token="2C"    name="HEAD"/>
+         <wbxml:TAG          token="2D"    name="I"/>
+         <wbxml:TAG          token="2E"    name="IMG"/>
+         <wbxml:TAG          token="2F"    name="INPUT"/>
+         <wbxml:TAG          token="30"    name="META"/>
+         <wbxml:TAG          token="31"    name="NOOP"/>
+         <wbxml:TAG          token="32"    name="PREV"/>
+         <wbxml:TAG          token="33"    name="ONEVENT"/>
+         <wbxml:TAG          token="34"    name="OPTGROUP"/>
+         <wbxml:TAG          token="35"    name="OPTION"/>
+         <wbxml:TAG          token="36"    name="REFRESH"/>
+         <wbxml:TAG          token="37"    name="SELECT"/>
+         <wbxml:TAG          token="38"    name="SMALL"/>
+         <wbxml:TAG          token="39"    name="STRONG"/>
+         <wbxml:TAG          token="3A"    name="TAB"/>
+         <wbxml:TAG          token="3B"    name="TEMPLATE"/>
+         <wbxml:TAG          token="3C"    name="TIMER"/>
+         <wbxml:TAG          token="3D"    name="U"/>
+         <wbxml:TAG          token="3E"    name="VAR"/>
+         <wbxml:TAG          token="3F"    name="WML"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="ACCEPT-CHARSET"/>
+         <wbxml:ATTRSTART    token="06"    name="ALIGN"    value="BOTTOM"
+                                           default="IMG"/>
+         <wbxml:ATTRSTART    token="07"    name="ALIGN"    value="CENTER"/>
+         <wbxml:ATTRSTART    token="08"    name="ALIGN"    value="LEFT"
+                                           default="TAB;BR"/>
+         <wbxml:ATTRSTART    token="09"    name="ALIGN"    value="MIDDLE"/>
+         <wbxml:ATTRSTART    token="0A"    name="ALIGN"    value="RIGHT"/>
+         <wbxml:ATTRSTART    token="0B"    name="ALIGN"    value="TOP"/>
+         <wbxml:ATTRSTART    token="0C"    name="ALT"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="0D"    name="CONTENT"/>
+         <wbxml:ATTRSTART    token="0E"    name="DEFAULT"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="0F"    name="DOMAIN"/>
+         <wbxml:ATTRSTART    token="10"    name="EMPTYOK"  value="FALSE"
+                                           default="INPUT"/>
+         <wbxml:ATTRSTART    token="11"    name="EMPTYOK"  value="TRUE"/>
+         <wbxml:ATTRSTART    token="12"    name="FORMAT"/>
+         <wbxml:ATTRSTART    token="13"    name="HEIGHT"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="14"    name="HSPACE"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="15"    name="IDEFAULT"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="16"    name="IKEY"/>
+         <wbxml:ATTRSTART    token="17"    name="KEY"/>
+         <wbxml:ATTRSTART    token="18"    name="LABEL"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="19"    name="LOCALSRC"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="1A"    name="MAXLENGTH"/>
+         <wbxml:ATTRSTART    token="1B"    name="METHOD"   value="GET"
+                                           default="GO"/>
+         <wbxml:ATTRSTART    token="1C"    name="METHOD"   value="POST"/>
+         <wbxml:ATTRSTART    token="1D"    name="MODE"     value="NOWRAP"/>
+         <wbxml:ATTRSTART    token="1E"    name="MODE"     value="WRAP"/>
+         <wbxml:ATTRSTART    token="1F"    name="MULTIPLE" value="FALSE"
+                                           default="SELECT"/>
+         <wbxml:ATTRSTART    token="20"    name="MULTIPLE" value="TRUE"/>
+         <wbxml:ATTRSTART    token="21"    name="NAME"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="22"    name="NEWCONTEXT"   value="FALSE"
+                                           default="CARD"/>
+         <wbxml:ATTRSTART    token="23"    name="NEWCONTEXT"   value="TRUE"/>
+         <wbxml:ATTRSTART    token="24"    name="ONCLICK"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="25"    name="ONENTERBACKWARD"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="26"    name="ONENTERFORWARD"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="27"    name="ONTIMER"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="28"    name="OPTIONAL" value="FALSE"
+                                           default="DO"/>
+         <wbxml:ATTRSTART    token="29"    name="OPTIONAL" value="TRUE"/>
+         <wbxml:ATTRSTART    token="2A"    name="PATH"/>
+         <wbxml:ATTRSTART    token="2B"    name="POSTDATA"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="2C"    name="PUBLIC"   value="FALSE"
+                                           default="ACCESS"/>
+         <wbxml:ATTRSTART    token="2D"    name="PUBLIC"   value="TRUE"/>
+         <wbxml:ATTRSTART    token="2E"    name="SCHEME"/>
+         <wbxml:ATTRSTART    token="2F"    name="SENDREFERER"  value="FALSE"
+                                           default="GO"/>
+         <wbxml:ATTRSTART    token="30"    name="SENDREFERER"  value="TRUE"/>
+         <wbxml:ATTRSTART    token="31"    name="SIZE"/>
+         <wbxml:ATTRSTART    token="32"    name="SRC"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="33"    name="STYLE"    value="LIST"
+                                           default="CARD"/>
+         <wbxml:ATTRSTART    token="34"    name="STYLE"    value="SET"/>
+         <wbxml:ATTRSTART    token="35"    name="TABINDEX"/>
+         <wbxml:ATTRSTART    token="36"    name="TITLE"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="37"    name="TYPE"/>
+         <wbxml:ATTRSTART    token="38"    name="TYPE"     value="ACCEPT"/>
+         <wbxml:ATTRSTART    token="39"    name="TYPE"     value="DELETE"/>
+         <wbxml:ATTRSTART    token="3A"    name="TYPE"     value="HELP"/>
+         <wbxml:ATTRSTART    token="3B"    name="TYPE"     value="PASSWORD"/>
+         <wbxml:ATTRSTART    token="3C"    name="TYPE"     value="ONCLICK"/>
+         <wbxml:ATTRSTART    token="3D"    name="TYPE"     value="ONENTERBACKWARD"/>
+         <wbxml:ATTRSTART    token="3E"    name="TYPE"     value="ONENTERFORWARD"/>
+         <wbxml:ATTRSTART    token="3F"    name="TYPE"     value="ONTIMER"/>
+         <wbxml:ATTRSTART    token="45"    name="TYPE"     value="OPTIONS"/>
+         <wbxml:ATTRSTART    token="46"    name="TYPE"     value="PREV"/>
+         <wbxml:ATTRSTART    token="47"    name="TYPE"     value="RESET"/>
+         <wbxml:ATTRSTART    token="48"    name="TYPE"     value="TEXT"
+                                           default="INPUT"/>
+         <wbxml:ATTRSTART    token="49"    name="TYPE"     value="vnd."/>
+         <wbxml:ATTRSTART    token="4A"    name="URL"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4B"    name="URL"      value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4C"    name="URL"      value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4D"    name="USER-AGENT"/>
+         <wbxml:ATTRSTART    token="4E"    name="VALUE"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4F"    name="VSPACE"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="50"    name="WIDTH"
+                                           validate="length"/>
+         <wbxml:ATTRSTART    token="51"    name="xml:lang"/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+         <wbxml:ATTRVALUE    token="89"    value="ACCEPT"/>
+         <wbxml:ATTRVALUE    token="8A"    value="BOTTOM"/>
+         <wbxml:ATTRVALUE    token="8B"    value="CLEAR"/>
+         <wbxml:ATTRVALUE    token="8C"    value="DELETE"/>
+         <wbxml:ATTRVALUE    token="8D"    value="HELP"/>
+         <wbxml:ATTRVALUE    token="8E"    value="http://"/>
+         <wbxml:ATTRVALUE    token="8F"    value="http://www."/>
+         <wbxml:ATTRVALUE    token="90"    value="https://"/>
+         <wbxml:ATTRVALUE    token="91"    value="https://www."/>
+         <wbxml:ATTRVALUE    token="92"    value="LIST"/>
+         <wbxml:ATTRVALUE    token="93"    value="MIDDLE"/>
+         <wbxml:ATTRVALUE    token="94"    value="NOWRAP"/>
+         <wbxml:ATTRVALUE    token="95"    value="ONCLICK"/>
+         <wbxml:ATTRVALUE    token="96"    value="ONENTERBACKWARD"/>
+         <wbxml:ATTRVALUE    token="97"    value="ONENTERFORWARD"/>
+         <wbxml:ATTRVALUE    token="98"    value="ONTIMER"/>
+         <wbxml:ATTRVALUE    token="99"    value="OPTIONS"/>
+         <wbxml:ATTRVALUE    token="9A"    value="PASSWORD"/>
+         <wbxml:ATTRVALUE    token="9B"    value="RESET"/>
+         <wbxml:ATTRVALUE    token="9C"    value="SET"/>
+         <wbxml:ATTRVALUE    token="9D"    value="TEXT"/>
+         <wbxml:ATTRVALUE    token="9E"    value="TOP"/>
+         <wbxml:ATTRVALUE    token="9F"    value="UNKNOWN"/>
+         <wbxml:ATTRVALUE    token="A0"    value="WRAP"/>
+         <wbxml:ATTRVALUE    token="A1"    value="www."/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+   <wbxml:App publicid="-//WAPFORUM//DTD WTA-WML 1.2//EN"
+              use-default="yes"
+              variable-subs="yes"
+              textual-ext="wta-wml"
+              tokenised-ext="wta-wmlc"
+              xml-space="default" >
+      <!-- see: WAP WTA, Version 11-Jul-2001 -->
+      <!--      WAP Wireless Telephony Application -->
+      <!--  WTA-WML is a superset of WML 1.2 -->
+      <wbxml:TagTokens>
+         <wbxml:TAG          token="1C"    name="a"/>
+         <wbxml:TAG          token="22"    name="anchor"/>
+         <wbxml:TAG          token="23"    name="access"/>
+         <wbxml:TAG          token="24"    name="b"/>
+         <wbxml:TAG          token="25"    name="big"/>
+         <wbxml:TAG          token="26"    name="br"/>
+         <wbxml:TAG          token="27"    name="card"/>
+         <wbxml:TAG          token="28"    name="do"/>
+         <wbxml:TAG          token="29"    name="em"/>
+         <wbxml:TAG          token="2A"    name="fielset"/>
+         <wbxml:TAG          token="2B"    name="go"/>
+         <wbxml:TAG          token="2C"    name="head"/>
+         <wbxml:TAG          token="2D"    name="i"/>
+         <wbxml:TAG          token="2E"    name="img"/>
+         <wbxml:TAG          token="2F"    name="input"/>
+         <wbxml:TAG          token="30"    name="meta"/>
+         <wbxml:TAG          token="31"    name="noop"/>
+         <wbxml:TAG          token="20"    name="p"/>
+         <wbxml:TAG          token="21"    name="postfield"/>
+         <wbxml:TAG          token="1B"    name="pre"/>
+         <wbxml:TAG          token="32"    name="prev"/>
+         <wbxml:TAG          token="33"    name="onevent"/>
+         <wbxml:TAG          token="34"    name="optgroup"/>
+         <wbxml:TAG          token="35"    name="option"/>
+         <wbxml:TAG          token="36"    name="refresh"/>
+         <wbxml:TAG          token="37"    name="select"/>
+         <wbxml:TAG          token="3E"    name="setvar"/>
+         <wbxml:TAG          token="38"    name="small"/>
+         <wbxml:TAG          token="39"    name="strong"/>
+         <wbxml:TAG          token="1F"    name="table"/>
+         <wbxml:TAG          token="1D"    name="td"/>
+         <wbxml:TAG          token="3B"    name="template"/>
+         <wbxml:TAG          token="3C"    name="timer"/>
+         <wbxml:TAG          token="1E"    name="tr"/>
+         <wbxml:TAG          token="3D"    name="u"/>
+         <wbxml:TAG          token="3F"    name="wml"/>
+         <wbxml:TAG          token="3F"    codepage="01"   name="wta-wml"/>
+      </wbxml:TagTokens>
+      <wbxml:AttrStartTokens>
+         <wbxml:ATTRSTART    token="05"    name="accept-charset"/>
+         <wbxml:ATTRSTART    token="5E"    name="accesskey"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="52"    name="align"/>
+         <wbxml:ATTRSTART    token="06"    name="align"    value="bottom"
+                                           default="img"/>
+         <wbxml:ATTRSTART    token="07"    name="align"    value="center"/>
+         <wbxml:ATTRSTART    token="08"    name="align"    value="left"
+                                           default="p"/>
+         <wbxml:ATTRSTART    token="09"    name="align"    value="middle"/>
+         <wbxml:ATTRSTART    token="0A"    name="align"    value="right"/>
+         <wbxml:ATTRSTART    token="0B"    name="align"    value="top"/>
+         <wbxml:ATTRSTART    token="0C"    name="alt"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="54"    name="class"/>
+         <wbxml:ATTRSTART    token="53"    name="columns"/>
+         <wbxml:ATTRSTART    token="0D"    name="content"/>
+         <wbxml:ATTRSTART    token="5C"    name="content"
+                      value="application/vnd.wap.wmlc;charset="/>
+         <wbxml:ATTRSTART    token="0F"    name="domain"/>
+         <wbxml:ATTRSTART    token="10"    name="emptyok"  value="false"
+                                             default="input"/>
+         <wbxml:ATTRSTART    token="11"    name="emptyok"  value="true"/>
+         <wbxml:ATTRSTART    token="5F"    name="enctype"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="60"    name="enctype"
+                      value="application/x-www-form-urlencoded"
+                                           default="go"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="61"    name="enctype"  value="multipart/form-data"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="12"    name="format"/>
+         <wbxml:ATTRSTART    token="56"    name="forua"    value="false"
+                                           default="meta"/>
+         <wbxml:ATTRSTART    token="57"    name="forua"    value="true"/>
+         <wbxml:ATTRSTART    token="13"    name="height"   validate="length"/>
+         <wbxml:ATTRSTART    token="4A"    name="href"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4B"    name="href"     value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="4C"    name="href"     value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="14"    name="hspace"   validate="length"/>
+         <wbxml:ATTRSTART    token="5A"    name="http-equiv"/>
+         <wbxml:ATTRSTART    token="5B"    name="http-equiv"   value="Content-Type"/>
+         <wbxml:ATTRSTART    token="5D"    name="http-equiv"   value="Expires"/>
+         <wbxml:ATTRSTART    token="55"    name="id"/>
+         <wbxml:ATTRSTART    token="15"    name="ivalue"   validate="vdata"/>
+         <wbxml:ATTRSTART    token="16"    name="iname"/>
+         <wbxml:ATTRSTART    token="18"    name="label"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="19"    name="localsrc" validate="vdata"/>
+         <wbxml:ATTRSTART    token="1A"    name="maxlength"/>
+         <wbxml:ATTRSTART    token="1B"    name="method"   value="get"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="1C"    name="method"   value="post"/>
+         <wbxml:ATTRSTART    token="1D"    name="mode"     value="nowrap"/>
+         <wbxml:ATTRSTART    token="1E"    name="mode"     value="wrap"/>
+         <wbxml:ATTRSTART    token="1F"    name="multiple" value="false"
+                                           default="select"/>
+         <wbxml:ATTRSTART    token="20"    name="multiple" value="true"/>
+         <wbxml:ATTRSTART    token="21"    name="name"     validate="vdata"/>
+         <wbxml:ATTRSTART    token="22"    name="newcontext"   value="false"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="23"    name="newcontext"   value="true"/>
+         <wbxml:ATTRSTART    token="25"    name="onenterbackward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="26"    name="onenterforward"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="24"    name="onpick"   validate="vdata"/>
+         <wbxml:ATTRSTART    token="27"    name="ontimer"  validate="vdata"/>
+         <wbxml:ATTRSTART    token="28"    name="optional" value="false"
+                                           default="do"/>
+         <wbxml:ATTRSTART    token="29"    name="optional" value="true"/>
+         <wbxml:ATTRSTART    token="2A"    name="path"/>
+         <wbxml:ATTRSTART    token="2E"    name="scheme"/>
+         <wbxml:ATTRSTART    token="2F"    name="sendreferer"  value="false"
+                                           default="go"/>
+         <wbxml:ATTRSTART    token="30"    name="sendreferer"  value="true"/>
+         <wbxml:ATTRSTART    token="31"    name="size"/>
+         <wbxml:ATTRSTART    token="32"    name="src"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="58"    name="src"      value="http://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="59"    name="src"      value="https://"
+                                           validate="vdata"/>
+         <wbxml:ATTRSTART    token="33"    name="ordered"  value="true"
+                                           default="card"/>
+         <wbxml:ATTRSTART    token="34"    name="ordered"  value="false"/>
+         <wbxml:ATTRSTART    token="35"    name="tabindex"/>
+         <wbxml:ATTRSTART    token="36"    name="title"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="37"    name="type"/>
+         <wbxml:ATTRSTART    token="38"    name="type"     value="accept"/>
+         <wbxml:ATTRSTART    token="39"    name="type"     value="delete"/>
+         <wbxml:ATTRSTART    token="3A"    name="type"     value="help"/>
+         <wbxml:ATTRSTART    token="3B"    name="type"     value="password"/>
+         <wbxml:ATTRSTART    token="3C"    name="type"     value="onpick"/>
+         <wbxml:ATTRSTART    token="3D"    name="type"     value="onenterbackward"/>
+         <wbxml:ATTRSTART    token="3E"    name="type"     value="onenterforward"/>
+         <wbxml:ATTRSTART    token="3F"    name="type"     value="ontimer"/>
+         <wbxml:ATTRSTART    token="45"    name="type"     value="options"/>
+         <wbxml:ATTRSTART    token="46"    name="type"     value="prev"/>
+         <wbxml:ATTRSTART    token="47"    name="type"     value="reset"/>
+         <wbxml:ATTRSTART    token="48"    name="type"     value="text"
+                                           default="input"/>
+         <wbxml:ATTRSTART    token="49"    name="type"     value="vnd."/>
+         <wbxml:ATTRSTART    token="4D"    name="value"    validate="vdata"/>
+         <wbxml:ATTRSTART    token="4E"    name="vspace"   validate="length"/>
+         <wbxml:ATTRSTART    token="4F"    name="width"    validate="length"/>
+         <wbxml:ATTRSTART    token="50"    name="xml:lang"/>
+         <wbxml:ATTRSTART    token="00"    name="xml:space" value="preserve"
+                                           fixed="pre" />
+         <wbxml:ATTRSTART    token="05"    codepage="01"   name="href" value="wtai://"/>
+         <wbxml:ATTRSTART    token="06"    codepage="01"   name="href" value="wtai://wp/mc;"/>
+         <wbxml:ATTRSTART    token="07"    codepage="01"   name="href" value="wtai://wp/sd;"/>
+         <wbxml:ATTRSTART    token="08"    codepage="01"   name="href" value="wtai://wp/ap;"/>
+         <wbxml:ATTRSTART    token="09"    codepage="01"   name="href" value="wtai://ms/ec"/>
+         <wbxml:ATTRSTART    token="10"    codepage="01"   name="type" value="wtaev-"/>
+         <wbxml:ATTRSTART    token="11"    codepage="01"   name="type" value="wtaev-cc/"/>
+         <wbxml:ATTRSTART    token="12"    codepage="01"   name="type" value="wtaev-cc/ic"/>
+         <wbxml:ATTRSTART    token="13"    codepage="01"   name="type" value="wtaev-cc/cl"/>
+         <wbxml:ATTRSTART    token="14"    codepage="01"   name="type" value="wtaev-cc/co"/>
+         <wbxml:ATTRSTART    token="15"    codepage="01"   name="type" value="wtaev-cc/oc"/>
+         <wbxml:ATTRSTART    token="16"    codepage="01"   name="type" value="wtaev-cc/cc"/>
+         <wbxml:ATTRSTART    token="17"    codepage="01"   name="type" value="wtaev-cc/dtmf"/>
+         <wbxml:ATTRSTART    token="20"    codepage="01"   name="type" value="wtaev-nt/"/>
+         <wbxml:ATTRSTART    token="21"    codepage="01"   name="type" value="wtaev-nt/it"/>
+         <wbxml:ATTRSTART    token="22"    codepage="01"   name="type" value="wtaev-nt/st"/>
+         <wbxml:ATTRSTART    token="30"    codepage="01"   name="type" value="wtaev-pb/"/>
+         <wbxml:ATTRSTART    token="38"    codepage="01"   name="type" value="wtaev-lg/"/>
+         <wbxml:ATTRSTART    token="50"    codepage="01"   name="type" value="wtaev-ms/"/>
+         <wbxml:ATTRSTART    token="51"    codepage="01"   name="type" value="wtaev-ms/ns"/>
+         <wbxml:ATTRSTART    token="58"    codepage="01"   name="type" value="wtaev-gsm/"/>
+         <wbxml:ATTRSTART    token="59"    codepage="01"   name="type" value="wtaev-gsm/ru"/>
+         <wbxml:ATTRSTART    token="5A"    codepage="01"   name="type" value="wtaev-gsm/ch"/>
+         <wbxml:ATTRSTART    token="5B"    codepage="01"   name="type" value="wtaev-gsm/ca"/>
+         <wbxml:ATTRSTART    token="60"    codepage="01"   name="type" value="wtaev-pdc/"/>
+         <wbxml:ATTRSTART    token="68"    codepage="01"   name="type" value="wtaev-ansi136/"/>
+         <wbxml:ATTRSTART    token="69"    codepage="01"   name="type" value="wtaev-ansi136/ia"/>
+         <wbxml:ATTRSTART    token="6A"    codepage="01"   name="type" value="wtaev-ansi136/if"/>
+         <wbxml:ATTRSTART    token="70"    codepage="01"   name="type" value="wtaev-cdma/"/>
+      </wbxml:AttrStartTokens>
+      <wbxml:AttrValueTokens>
+         <wbxml:ATTRVALUE    token="85"    value=".com/"/>
+         <wbxml:ATTRVALUE    token="86"    value=".edu/"/>
+         <wbxml:ATTRVALUE    token="87"    value=".net/"/>
+         <wbxml:ATTRVALUE    token="88"    value=".org/"/>
+         <wbxml:ATTRVALUE    token="89"    value="accept"/>
+         <wbxml:ATTRVALUE    token="8A"    value="bottom"/>
+         <wbxml:ATTRVALUE    token="8B"    value="clear"/>
+         <wbxml:ATTRVALUE    token="8C"    value="delete"/>
+         <wbxml:ATTRVALUE    token="8D"    value="help"/>
+         <wbxml:ATTRVALUE    token="8E"    value="http://"/>
+         <wbxml:ATTRVALUE    token="8F"    value="http://www."/>
+         <wbxml:ATTRVALUE    token="90"    value="https://"/>
+         <wbxml:ATTRVALUE    token="91"    value="https://www."/>
+         <wbxml:ATTRVALUE    token="93"    value="middle"/>
+         <wbxml:ATTRVALUE    token="94"    value="nowrap"/>
+         <wbxml:ATTRVALUE    token="96"    value="onenterbackward"/>
+         <wbxml:ATTRVALUE    token="97"    value="onenterforward"/>
+         <wbxml:ATTRVALUE    token="95"    value="onpick"/>
+         <wbxml:ATTRVALUE    token="98"    value="ontimer"/>
+         <wbxml:ATTRVALUE    token="99"    value="options"/>
+         <wbxml:ATTRVALUE    token="9A"    value="password"/>
+         <wbxml:ATTRVALUE    token="9B"    value="reset"/>
+         <wbxml:ATTRVALUE    token="9D"    value="text"/>
+         <wbxml:ATTRVALUE    token="9E"    value="top"/>
+         <wbxml:ATTRVALUE    token="9F"    value="unknown"/>
+         <wbxml:ATTRVALUE    token="A0"    value="wrap"/>
+         <wbxml:ATTRVALUE    token="A1"    value="www."/>
+      </wbxml:AttrValueTokens>
+   </wbxml:App>
+</wbxml:wbxml>
+

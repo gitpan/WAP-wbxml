@@ -5,7 +5,6 @@ test.pl
 wbxml.pm
 wbrules.xml
 xmlc
-xmld
 README
 samples/makefile
 samples/sample_10.wml

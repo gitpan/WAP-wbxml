@@ -1,5 +1,10 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.03  Thu Jan 17 20:30:00 2002
+	- Process character entities (nbsp & shy)
+	(wbrules.xml and its internal DTD were modified)
+	- suppress xmld, see now the module WAP::SAXDriver::wbxml
+
 1.02  Mon Dec 17 10:30:00 2001
 	- Fix a bug (modif 1.01)
 

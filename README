@@ -25,5 +25,7 @@ Build/Installation:
 	$ make
 	$ make install
 
+    Under UNIX, run 'xmlc' one time before leaving root session. 
+    (creation of WAP/wbrules.pl)
 
 Send bug reports, comments and suggestions to perrad@besancon.sema.slb.com

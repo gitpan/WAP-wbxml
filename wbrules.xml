@@ -10,7 +10,7 @@
   <!ELEMENT wbxml:PublicIdentifier EMPTY>
   <!ATTLIST wbxml:PublicIdentifier value NMTOKEN #REQUIRED>
   <!ATTLIST wbxml:PublicIdentifier name CDATA #REQUIRED>
-  <!ELEMENT wbxml:App (wbxml:TagTokens,wbxml:AttrStartTokens,wbxml:AttrValueTokens)>
+  <!ELEMENT wbxml:App (wbxml:TagTokens?,wbxml:AttrStartTokens?,wbxml:AttrValueTokens?,wbxml:CharacterEntities?)>
   <!ATTLIST wbxml:App publicid CDATA #REQUIRED>
   <!ATTLIST wbxml:App use-default (no|yes) #IMPLIED>
   <!ATTLIST wbxml:App variable-subs (no|yes) #IMPLIED>
@@ -37,6 +37,10 @@
   <!ATTLIST wbxml:ATTRVALUE token NMTOKEN #REQUIRED>
   <!ATTLIST wbxml:ATTRVALUE value CDATA #REQUIRED>
   <!ATTLIST wbxml:ATTRVALUE codepage NMTOKEN #IMPLIED>
+  <!ELEMENT wbxml:CharacterEntities (wbxml:CharacterEntity)*>
+  <!ELEMENT wbxml:CharacterEntity EMPTY>
+  <!ATTLIST wbxml:CharacterEntity name NMTOKEN #REQUIRED>
+  <!ATTLIST wbxml:CharacterEntity code NMTOKEN #REQUIRED>
   <!ENTITY quot "&#34;">
   <!ENTITY amp "&#38;#38;">
   <!ENTITY apos "&#39;">
@@ -185,9 +189,6 @@
       <wbxml:ATTRSTART token="15" name="channelid"/>
       <wbxml:ATTRSTART token="16" name="useraccessible"/>
     </wbxml:AttrStartTokens>
-    <wbxml:AttrValueTokens>
-      <!-- empty -->
-    </wbxml:AttrValueTokens>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD CHANNEL 1.1//EN" textual-ext="channel" tokenised-ext="channelc" xml-space="default">
     <!-- see: WAP WTA, Version 08-Nov-1999 -->
@@ -214,9 +215,6 @@
       <wbxml:ATTRSTART token="12" name="failure" value="https://"/>
       <wbxml:ATTRSTART token="13" name="EventId"/>
     </wbxml:AttrStartTokens>
-    <wbxml:AttrValueTokens>
-      <!-- empty -->
-    </wbxml:AttrValueTokens>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.3//EN" use-default="yes" variable-subs="yes" textual-ext="wml" tokenised-ext="wmlc" xml-space="default">
     <!-- see: WAP WML, Version 19-Feb-2000 -->
@@ -288,7 +286,7 @@
       <wbxml:ATTRSTART token="4A" name="href" validate="vdata"/>
       <wbxml:ATTRSTART token="4B" name="href" value="http://" validate="vdata"/>
       <wbxml:ATTRSTART token="4C" name="href" value="https://" validate="vdata"/>
-      <wbxml:ATTRSTART token="14" name="hspace" validate="length"/>
+      <wbxml:ATTRSTART token="14" name="hspace" validate="length" default="0"/>
       <wbxml:ATTRSTART token="5A" name="http-equiv"/>
       <wbxml:ATTRSTART token="5B" name="http-equiv" value="Content-Type"/>
       <wbxml:ATTRSTART token="5D" name="http-equiv" value="Expires"/>
@@ -340,7 +338,7 @@
       <wbxml:ATTRSTART token="48" name="type" value="text" default="input"/>
       <wbxml:ATTRSTART token="49" name="type" value="vnd."/>
       <wbxml:ATTRSTART token="4D" name="value" validate="vdata"/>
-      <wbxml:ATTRSTART token="4E" name="vspace" validate="length"/>
+      <wbxml:ATTRSTART token="4E" name="vspace" validate="length" default="0"/>
       <wbxml:ATTRSTART token="4F" name="width" validate="length"/>
       <wbxml:ATTRSTART token="50" name="xml:lang"/>
       <wbxml:ATTRSTART token="62" name="xml:space" value="preserve" fixed="pre"/>
@@ -375,6 +373,10 @@
       <wbxml:ATTRVALUE token="A0" value="wrap"/>
       <wbxml:ATTRVALUE token="A1" value="www."/>
     </wbxml:AttrValueTokens>
+    <wbxml:CharacterEntities>
+      <wbxml:CharacterEntity code="160" name="nbsp"/>
+      <wbxml:CharacterEntity code="173" name="shy"/>
+    </wbxml:CharacterEntities>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.2//EN" use-default="yes" variable-subs="yes" textual-ext="wml" tokenised-ext="wmlc" xml-space="default">
     <!-- see: WAP WML, Version 04-Nov-1999 -->
@@ -445,7 +447,7 @@
       <wbxml:ATTRSTART token="4A" name="href" validate="vdata"/>
       <wbxml:ATTRSTART token="4B" name="href" value="http://" validate="vdata"/>
       <wbxml:ATTRSTART token="4C" name="href" value="https://" validate="vdata"/>
-      <wbxml:ATTRSTART token="14" name="hspace" validate="length"/>
+      <wbxml:ATTRSTART token="14" name="hspace" validate="length" default="0"/>
       <wbxml:ATTRSTART token="5A" name="http-equiv"/>
       <wbxml:ATTRSTART token="5B" name="http-equiv" value="Content-Type"/>
       <wbxml:ATTRSTART token="5D" name="http-equiv" value="Expires"/>
@@ -497,7 +499,7 @@
       <wbxml:ATTRSTART token="48" name="type" value="text" default="input"/>
       <wbxml:ATTRSTART token="49" name="type" value="vnd."/>
       <wbxml:ATTRSTART token="4D" name="value" validate="vdata"/>
-      <wbxml:ATTRSTART token="4E" name="vspace" validate="length"/>
+      <wbxml:ATTRSTART token="4E" name="vspace" validate="length" default="0"/>
       <wbxml:ATTRSTART token="4F" name="width" validate="length"/>
       <wbxml:ATTRSTART token="50" name="xml:lang"/>
       <wbxml:ATTRSTART token="00" name="xml:space" value="preserve" fixed="pre"/>
@@ -531,6 +533,10 @@
       <wbxml:ATTRVALUE token="A0" value="wrap"/>
       <wbxml:ATTRVALUE token="A1" value="www."/>
     </wbxml:AttrValueTokens>
+    <wbxml:CharacterEntities>
+      <wbxml:CharacterEntity code="160" name="nbsp"/>
+      <wbxml:CharacterEntity code="173" name="shy"/>
+    </wbxml:CharacterEntities>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.1//EN" use-default="yes" variable-subs="yes" textual-ext="wml" tokenised-ext="wmlc" xml-space="default">
     <!-- see: WAP WML, Version 06-Jun-1999 -->
@@ -596,7 +602,7 @@
       <wbxml:ATTRSTART token="4A" name="href" value="" validate="vdata"/>
       <wbxml:ATTRSTART token="4B" name="href" value="http://" validate="vdata"/>
       <wbxml:ATTRSTART token="4C" name="href" value="https://" validate="vdata"/>
-      <wbxml:ATTRSTART token="14" name="hspace" validate="length"/>
+      <wbxml:ATTRSTART token="14" name="hspace" validate="length" default="0"/>
       <wbxml:ATTRSTART token="5A" name="http-equiv"/>
       <wbxml:ATTRSTART token="5B" name="http-equiv" value="Content-Type"/>
       <wbxml:ATTRSTART token="5D" name="http-equiv" value="Expires"/>
@@ -648,7 +654,7 @@
       <wbxml:ATTRSTART token="48" name="type" value="text" default="input"/>
       <wbxml:ATTRSTART token="49" name="type" value="vnd."/>
       <wbxml:ATTRSTART token="4D" name="value" validate="vdata"/>
-      <wbxml:ATTRSTART token="4E" name="vspace" validate="length"/>
+      <wbxml:ATTRSTART token="4E" name="vspace" validate="length" default="0"/>
       <wbxml:ATTRSTART token="4F" name="width" validate="length"/>
       <wbxml:ATTRSTART token="50" name="xml:lang"/>
     </wbxml:AttrStartTokens>
@@ -681,6 +687,10 @@
       <wbxml:ATTRVALUE token="A0" value="wrap"/>
       <wbxml:ATTRVALUE token="A1" value="www."/>
     </wbxml:AttrValueTokens>
+    <wbxml:CharacterEntities>
+      <wbxml:CharacterEntity code="160" name="nbsp"/>
+      <wbxml:CharacterEntity code="173" name="shy"/>
+    </wbxml:CharacterEntities>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD WML 1.0//EN" use-default="yes" variable-subs="yes" textual-ext="wml" tokenised-ext="wmlc" xml-space="default">
     <!-- see: WAP WML, Version 30-Apr-1998 -->
@@ -733,7 +743,7 @@
       <wbxml:ATTRSTART token="11" name="EMPTYOK" value="TRUE"/>
       <wbxml:ATTRSTART token="12" name="FORMAT"/>
       <wbxml:ATTRSTART token="13" name="HEIGHT" validate="length"/>
-      <wbxml:ATTRSTART token="14" name="HSPACE" validate="length"/>
+      <wbxml:ATTRSTART token="14" name="HSPACE" validate="length" default="0"/>
       <wbxml:ATTRSTART token="15" name="IDEFAULT" validate="vdata"/>
       <wbxml:ATTRSTART token="16" name="IKEY"/>
       <wbxml:ATTRSTART token="17" name="KEY"/>
@@ -787,7 +797,7 @@
       <wbxml:ATTRSTART token="4C" name="URL" value="https://" validate="vdata"/>
       <wbxml:ATTRSTART token="4D" name="USER-AGENT"/>
       <wbxml:ATTRSTART token="4E" name="VALUE" validate="vdata"/>
-      <wbxml:ATTRSTART token="4F" name="VSPACE" validate="length"/>
+      <wbxml:ATTRSTART token="4F" name="VSPACE" validate="length" default="0"/>
       <wbxml:ATTRSTART token="50" name="WIDTH" validate="length"/>
       <wbxml:ATTRSTART token="51" name="xml:lang"/>
     </wbxml:AttrStartTokens>
@@ -822,6 +832,10 @@
       <wbxml:ATTRVALUE token="A0" value="WRAP"/>
       <wbxml:ATTRVALUE token="A1" value="www."/>
     </wbxml:AttrValueTokens>
+    <wbxml:CharacterEntities>
+      <wbxml:CharacterEntity code="160" name="nbsp"/>
+      <wbxml:CharacterEntity code="173" name="shy"/>
+    </wbxml:CharacterEntities>
   </wbxml:App>
   <wbxml:App publicid="-//WAPFORUM//DTD WTA-WML 1.2//EN" use-default="yes" variable-subs="yes" textual-ext="wta-wml" tokenised-ext="wta-wmlc" xml-space="default">
     <!-- see: WAP WTA, Version 11-Jul-2001 -->
@@ -1009,30 +1023,14 @@
       <wbxml:ATTRVALUE token="A0" value="wrap"/>
       <wbxml:ATTRVALUE token="A1" value="www."/>
     </wbxml:AttrValueTokens>
+    <wbxml:CharacterEntities>
+      <wbxml:CharacterEntity code="160" name="nbsp"/>
+      <wbxml:CharacterEntity code="173" name="shy"/>
+    </wbxml:CharacterEntities>
   </wbxml:App>
-  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.0 Strict//EN">
-    <wbxml:TagTokens/>
-    <wbxml:AttrStartTokens/>
-    <wbxml:AttrValueTokens/>
-  </wbxml:App>
-  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.0 Transitional//EN">
-    <wbxml:TagTokens/>
-    <wbxml:AttrStartTokens/>
-    <wbxml:AttrValueTokens/>
-  </wbxml:App>
-  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.0 Frameset//EN">
-    <wbxml:TagTokens/>
-    <wbxml:AttrStartTokens/>
-    <wbxml:AttrValueTokens/>
-  </wbxml:App>
-  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.1//EN">
-    <wbxml:TagTokens/>
-    <wbxml:AttrStartTokens/>
-    <wbxml:AttrValueTokens/>
-  </wbxml:App>
-  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML Basic 1.0//EN">
-    <wbxml:TagTokens/>
-    <wbxml:AttrStartTokens/>
-    <wbxml:AttrValueTokens/>
-  </wbxml:App>
+  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.0 Strict//EN"/>
+  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.0 Transitional//EN"/>
+  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.0 Frameset//EN"/>
+  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML 1.1//EN"/>
+  <wbxml:App textual-ext="html" tokenised-ext="htmlc" publicid="-//W3C//DTD XHTML Basic 1.0//EN"/>
 </wbxml:wbxml>

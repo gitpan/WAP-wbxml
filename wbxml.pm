@@ -6,7 +6,7 @@ use UNIVERSAL;
 
 package WbXml;
 use vars qw($VERSION);
-$VERSION = '1.02';
+$VERSION = '1.03';
 
 =head1 NAME
 
@@ -240,9 +240,14 @@ sub compileStringIwithVariables {
 
 sub compileEntity {
 	my $self = shift;
-	my ($code) = @_;
-	$self->putb('body',ENTITY);
-	$self->putmb('body',$code);
+	my ($entity) = @_;
+	if (exists $self->{rulesApp}->{CharacterEntity}{$entity}) {
+		my $code = $self->{rulesApp}->{CharacterEntity}{$entity};
+		$self->putb('body',ENTITY);
+		$self->putmb('body',$code);
+	} else {
+		warn "entity reference : $entity";
+	}
 }
 
 sub compileAttributeExtToken {
@@ -446,7 +451,7 @@ sub compileContent {
 		} elsif ($type == COMMENT_NODE) {
 			# do nothing
 		} elsif ($type == ENTITY_REFERENCE_NODE) {
-			warn "entity reference : ",$node->getNodeName();	#
+			$self->compileEntity($node->getNodeName());
 		} elsif ($type == PROCESSING_INSTRUCTION_NODE) {
 			my $target = $node->getTarget();
 			my $data = $node->getData();
@@ -929,6 +934,26 @@ sub visitATTRVALUE {
 	push @{$self->{wbrulesapp}->{AttrValueTokens}}, $tag;
 }
 
+sub visitCharacterEntities {
+	my $self = shift;
+	my($parent) = @_;
+	for (my $node = $parent->getFirstChild();
+			$node;
+			$node = $node->getNextSibling()	) {
+		if ($node->getNodeType() == ELEMENT_NODE) {
+			$self->{doc}->visitElement($node,$self);
+		}
+	}
+}
+
+sub visitCharacterEntity {
+	my $self = shift;
+	my($node) = @_;
+	my $code = $node->getAttribute("code");
+	my $name = $node->getAttribute("name");
+	$self->{wbrulesapp}->{CharacterEntity}{$name} = $code;
+}
+
 package doc;
 use XML::DOM;
 
@@ -995,6 +1020,7 @@ sub Load {
 		print "parse rules\n";
 		my $doc = new doc($config);
 		if ($doc) {
+			use POSIX qw(ctime);
 			my $visitor = new constructVisitor($doc);
 			$doc->visitElement($doc->{root},$visitor);
 			$rules = $visitor->{wbrules};
@@ -1003,6 +1029,9 @@ sub Load {
 #			$d->Indent(1);
 			$d->Indent(0);
 			open PERSISTANCE,"> $persistance";
+			print PERSISTANCE "# This file is generated. DO NOT modify it.\n";
+			print PERSISTANCE "# From file : ",$config,"\n";
+			print PERSISTANCE "# Generation date : ",POSIX::ctime(time());
 			print PERSISTANCE $d->Dump();
 			close PERSISTANCE;
 		} else {
@@ -1016,11 +1045,11 @@ sub Load {
 
 =head1 SEE ALSO
 
- xmlc
+ xmlc, WAP::SAXDriver::wbxml.pm
 
 =head1 COPYRIGHT
 
-(c) 2000-2001 Francois PERRAD, France. All rights reserved.
+(c) 2000-2002 Francois PERRAD, France. All rights reserved.
 
 This program (WAP::wbxml.pm and the internal DTD of wbrules.xml) is distributed
 under the terms of the Artistic Licence.

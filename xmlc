@@ -55,7 +55,7 @@ WAP Specifications, including Binary XML Content Format (WBXML)
 
 =head1 SEE ALSO
 
- xmld
+ xmld, WAP::SAXDriver::wbxml.pm
 
 =head1 AUTHOR
 

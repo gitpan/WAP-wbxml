@@ -50,7 +50,8 @@ my $codepage_tag;
 my $codepage_attr;
 my $depth;
 
-open IN,$infile;
+open IN,$infile
+		or die "can't open $infile ($!)\n";
 binmode IN,":raw";
 get_version();
 get_publicid();
@@ -85,7 +86,7 @@ sub get_version {
 sub get_publicid {
 	$publicid = getmb32();
 	if ($publicid) {
-    	while (my ($key,$value) = each %{$rules->{PublicIdentifiers}}) {
+		while (my ($key,$value) = each %{$rules->{PublicIdentifiers}}) {
 			if ($value == $publicid) {
 				$publicid = $key;
 				last;
@@ -99,7 +100,7 @@ sub get_publicid {
 sub get_charset {
 	$charset = getmb32();
 	if ($charset) {
-    	while (my ($key,$value) = each %{$rules->{CharacterSets}}) {
+		while (my ($key,$value) = each %{$rules->{CharacterSets}}) {
 			if ($value == $charset) {
 				$charset = $key;
 				last;
@@ -133,13 +134,15 @@ sub body {
 	$codepage_attr = 0;
 	my $tag = get_tag();
 	while ($tag == PI) {
-		print $depth,"PI\n";
+		my $target = get_attr();
+		attribute($target,"PI  ");
+		print " ";
 		my $attr = get_attr();
 		while ($attr != _END) {
 			attribute($attr,"  ");
 			$attr = get_attr();
-			print "\n" unless ($attr & 0x80 or $attr == STR_I);
 		}
+		print "\n";
 		$tag = get_tag();
 	}
 	element($tag,"");
@@ -160,15 +163,16 @@ sub element {
 				$name = $_->{name};
 			}
 		}
-        print $depth,$name,"\n";
+		print $depth,$name,"\n";
 	}
 	if ($tag & HAS_ATTR) {
 		my $attr = get_attr();
 		while ($attr != _END) {
 			attribute($attr,$depth . "  ");
 			$attr = get_attr();
-			print "\n" unless ($attr & 0x80 or $attr == STR_I);
+			print "\n" unless ($attr & 0x80 or $attr == STR_I or $attr == LITERAL);
 		}
+		print "\n";
 	}
 	if ($tag & HAS_CHILD) {
 		while ((my $child = get_tag()) != _END) {
@@ -192,13 +196,14 @@ sub content {
 	} elsif ($tag == EXT_I_2) {
 		print $depth,"EXT_I_2 '",get_str_i(),"'\n";
 	} elsif ($tag == PI) {
-		print $depth,"PI\n";
+		my $target = get_attr();
+		attribute($target,$depth . "PI  ");
 		my $attr = get_attr();
 		while ($attr != _END) {
 			attribute($attr,$depth . "  ");
 			$attr = get_attr();
-			print "\n" unless ($attr & 0x80 or $attr == STR_I);
 		}
+		print "\n";
 	} elsif ($tag == EXT_T_0) {
 		my $index = getmb32();
 		print $depth,"EXT_T_0 '",get_str_t($index),"'\n";
@@ -233,9 +238,9 @@ sub attribute {
 		print sprintf("\\u%X ",$entcode);
 	} elsif ($attr == STR_I) {		# ATTRV
 		print "'",get_str_i(),"' ";
-	} elsif ($attr == LITERAL) {	# ATTRS
+	} elsif ($attr == LITERAL) {	# ATTRS, ATTRV
 		my $index = getmb32();
-		print $depth,get_str_t($index)," = ";
+		print $depth,get_str_t($index);
 	} elsif ($attr == EXT_I_0) {	# ATTRV
 		print "EXT_I_0 '",get_str_i(),"' ";
 	} elsif ($attr == EXT_I_1) {	# ATTRV
@@ -273,7 +278,7 @@ sub attribute {
 					$value = $_->{value};
 				}
 			}
-            print "'",$value,"' ";
+			print "'",$value,"' ";
 		} else {
 			my $name = "ATTRS " . $token;
 			my $value = undef;
@@ -317,12 +322,12 @@ sub get_str_i {
 	my $str;
 	my $ch = getc(IN);
 	die unless (defined $ch);
-    while (ord $ch != 0) {
-      	$str .= $ch;
+	while (ord $ch != 0) {
+		$str .= $ch;
 		$ch = getc(IN);
 		die unless (defined $ch);
-    }
-    return $str;
+	}
+	return $str;
 }
 
 sub get_opaque {

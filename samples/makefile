@@ -10,6 +10,8 @@ test:
 	xmlc sample_11.channel
 	xmlc sample_12.channel
 	xmlc sample_12.wta-wml
+	xmlc basic_10.html
+	xmlc strict_10.html
 	xmlc personal.xml
 
 out:
@@ -23,5 +25,7 @@ out:
 	xmld sample_11.channelc		sample_channel11.out
 	xmld sample_12.channelc		sample_channel12.out
 	xmld sample_12.wta-wmlc		sample_wta-wml12.out
+	xmld basic_10.htmlc		basic_10.out
+	xmld strict_10.htmlc		strict_10.out
 	xmld personal.xmlc		personal.out
 

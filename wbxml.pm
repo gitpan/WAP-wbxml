@@ -6,7 +6,7 @@ use UNIVERSAL;
 
 package WbXml;
 use vars qw($VERSION);
-$VERSION = '1.0';
+$VERSION = '1.01';
 
 =head1 NAME
 
@@ -367,7 +367,8 @@ sub compileAttribute {
 		# unknown attribute name
 		$self->putb('body',LITERAL);
 		$self->compilePreserveStringT($attr_name);
-		$self->compilePreserveStringI($attr_value);
+		$self->putb('body',LITERAL);
+		$self->compilePreserveStringT($attr_value);
 	}
 }
 
@@ -449,9 +450,28 @@ sub compileContent {
 		} elsif ($type == PROCESSING_INSTRUCTION_NODE) {
 			my $target = $node->getTarget();
 			my $data = $node->getData();
-			$self->compileProcessingIntruction($target,$data);
+			$self->compileProcessingInstruction($target,$data);
 		} else {
 			die "unexcepted ElementType in compileContent : $type\n";
+		}
+	}
+}
+
+sub compileBody {
+	my $self = shift;
+	my ($doc) = @_;
+	my $xml_lang = "";
+	my $xml_space = $self->{rulesApp}->{xmlSpace};
+	for (my $node = $doc->getFirstChild();
+			$node;
+			$node = $node->getNextSibling() ) {
+		my $type = $node->getNodeType();
+		if		($type == ELEMENT_NODE) {
+			$self->compileElement($node,$xml_lang,$xml_space);
+		} elsif ($type == PROCESSING_INSTRUCTION_NODE) {
+			my $target = $node->getTarget();
+			my $data = $node->getData();
+			$self->compileProcessingInstruction($target,$data);
 		}
 	}
 }
@@ -509,12 +529,10 @@ sub compile {
 	$self->{h_str} = {};
 	$self->{tagCodepage} = 0;
 	$self->{attrCodepage} = 0;
-	my $xml_lang = "";
-	my $xml_space = $self->{rulesApp}->{xmlSpace};
 	$self->compileVersion();
 	$self->compilePublicId();
 	$self->compileCharSet($encoding);
-	$self->compileElement($doc->getDocumentElement(),$xml_lang,$xml_space);
+	$self->compileBody($doc);
 	$self->putmb('header',length $self->{strtbl});
 	return $self->{header} . $self->{strtbl} . $self->{body};
 }

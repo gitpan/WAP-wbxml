@@ -1,5 +1,11 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.08  Thu Jul 22 12:30:00 2003
+	- add option -p : path for rules
+	- rename wbrules.xml to wap.wbrules.xml
+	- add syncml.wbrules.xml for SyncML
+	- ignore unknown element in *.wbrules.xml
+
 1.07  Thu Sep 26 12:30:00 2002
 	- bug in Makefile.PL
 

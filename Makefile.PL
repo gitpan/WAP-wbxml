@@ -11,8 +11,9 @@ WriteMakefile(
                         'Data::Dumper'  => 0,
     },
     'PM'            => {
-                        'wbxml.pm'      => '$(INST_LIBDIR)/wbxml.pm',
-                        'wbrules.xml'   => '$(INST_LIBDIR)/wbrules.xml',
+                        'wbxml.pm'              => '$(INST_LIBDIR)/wbxml.pm',
+                        'wap.wbrules.xml'       => '$(INST_LIBDIR)/wap.wbrules.xml',
+                        'syncml.wbrules.xml'    => '$(INST_LIBDIR)/syncml.wbrules.xml',
     },
     'EXE_FILES'     => ['wbxmlc.pl'],
     'AUTHOR'        => "Francois PERRAD (francois.perrad\@gadz.org)",

@@ -3,7 +3,8 @@ Makefile.PL
 MANIFEST
 test.pl
 wbxml.pm
-wbrules.xml
+wap.wbrules.xml
+syncml.wbrules.xml
 wbxmlc.pl
 README
 samples/makefile

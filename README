@@ -12,7 +12,7 @@ Description:
 
     The XML input file must refere to a DTD with a public identifier.
 
-    The file WAP/wbrules.xml configures this tool for all known DTD.
+    The file WAP/wap.wbrules.xml configures this tool for all known DTD.
 
 Prerequisites:
 --------------
@@ -26,6 +26,6 @@ Build/Installation:
 	$ make install
 
     Under UNIX, run 'wbxmlc.pl' one time before leaving root session. 
-    (creation of WAP/wbrules.pl)
+    (creation of WAP/wap.wbrules.pl)
 
 Send bug reports, comments and suggestions to francois.perrad@gadz.org

@@ -8,7 +8,7 @@ use integer;
 use bytes;
 
 use vars qw($VERSION);
-$VERSION = '1.07';
+$VERSION = '1.08';
 
 =head1 NAME
 
@@ -36,7 +36,7 @@ Version 1.3 WBXML (15th May 2000 Approved)
 
 The XML input file must refere to a DTD with a public identifier.
 
-The file WAP/wbrules.xml configures this tool for all known DTD.
+The file WAP/wap.wbrules.xml configures this tool for all known DTD.
 
 This module needs Data::Dumper, I18N::Charset and XML::DOM modules.
 
@@ -805,6 +805,10 @@ sub visitwbxml {
 	}
 }
 
+sub visitCharacterSets {
+	# empty
+}
+
 sub visitPublicIdentifiers {
 	my $self = shift;
 	my($parent) = @_;
@@ -960,31 +964,45 @@ sub visitElement {
 	my $name = $node->getNodeName();
 	$name =~ s/^wbxml://;
 	my $func = 'visit' . $name;
-	$visitor->$func($node);
+	if($visitor->can($func)) {
+		$visitor->$func($node);
+	} else {
+		warn "unknown element '$name'\n";
+	}
 }
 
 package WbRules;
 
 =item Load
 
- $rules = WbRules->Load();
+ $rules = WbRules->Load( [PATH] );
 
-Loads rules from WAP/wbrules.xml or WAP/wbrules.pl.
+Loads rules from PATH.
 
-WAP/wbrules.pl is a serialized version (Data::Dumper).
+WAP/wap.wbrules.pl is a serialized version (Data::Dumper).
 
-WAP/wbrules.xml supplies rules for WAP files, but it could extended to over XML applications.
+WAP/wap.wbrules.xml supplies rules for WAP files, but it could extended to over XML applications.
 
 =cut
 
 sub Load {
 	my $proto = shift;
 	my $class = ref($proto) || $proto;
+	my($path) = @_;
+	my $config;
+	my $persistance;
 
-	my $path = $INC{'WAP/wbxml.pm'};
-	$path =~ s/wbxml\.pm$//i;
-	my $persistance = $path . 'wbrules.pl';
-	my $config = $path . 'wbrules.xml';
+	if ($path) {
+		$config = $path;
+		$persistance = $path;
+		$persistance =~ s/\.\w+$//;
+		$persistance .= '.pl';
+	} else {
+		$path = $INC{'WAP/wbxml.pm'};
+		$path =~ s/wbxml\.pm$//i;
+		$persistance = $path . 'wap.wbrules.pl';
+		$config = $path . 'wap.wbrules.xml';
+	}
 
 	my @st_config = stat($config);
 	die "can't found original rules ($config).\n" unless (@st_config);

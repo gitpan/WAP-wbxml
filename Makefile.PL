@@ -13,7 +13,7 @@ WriteMakefile(
                         'wbxml.pm'      => '$(INST_LIBDIR)/wbxml.pm',
                         'wbrules.xml'   => '$(INST_LIBDIR)/wbrules.xml',
     },
-    'EXE_FILES'     => ['xmlc', 'xmld'],
+    'EXE_FILES'     => ['xmlc'],
     'AUTHOR'        => "Francois PERRAD (perrad\@besancon.sema.slb.com)",
     'dist'          => {
                         'COMPRESS'      => 'gzip',

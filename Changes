@@ -1,5 +1,8 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.04  Wed Jan 23 17:30:00 2002
+	- bug in Makefile.PL
+
 1.03  Thu Jan 17 20:30:00 2002
 	- Process character entities (nbsp & shy)
 	(wbrules.xml and its internal DTD were modified)

@@ -25,7 +25,7 @@ Build/Installation:
 	$ make
 	$ make install
 
-    Under UNIX, run 'wbxmlc.pl' one time before leaving root session. 
+    Under UNIX, run 'wbxmlc' one time before leaving root session. 
     (creation of WAP/wap.wbrules.pl)
 
 Send bug reports, comments and suggestions to francois.perrad@gadz.org

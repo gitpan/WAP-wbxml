@@ -1,8 +1,11 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.11  Fri Oct 26 08:30:00 2007
+	- some Perl Best Practices
+
 1.10  Fri Feb 18 12:30:00 2005
 	- wbxml.pm : select the best token/codepage
-	- wbxml.pm : don't genrate an empty inline string at the end of ATTR Value
+	- wbxml.pm : don't generate an empty inline string at the end of ATTR Value
 	- wap.wbrules.xml : update WAP-ProvCont
 
 1.09  Wed Jul  7 18:30:00 2004

@@ -2,11 +2,12 @@ Changes
 Makefile.PL
 MANIFEST
 test.pl
-wbxml.pm
-wap.wbrules.xml
-syncml.wbrules.xml
-wv.wbrules.xml
-wbxmlc.pl
+lib/WAP/wbxml.pm
+lib/WAP/wbxml/WbRules.pm
+lib/WAP/wbxml/wap.wbrules.xml
+lib/WAP/wbxml/syncml.wbrules.xml
+lib/WAP/wbxml/wv.wbrules.xml
+bin/wbxmlc
 README
 samples/makefile
 samples/sample_10.wml
@@ -22,5 +23,4 @@ samples/sample_12.channel
 samples/basic_10.html
 samples/strict_10.html
 samples/personal.xml
-
 META.yml                                 Module meta-data (added by MakeMaker)

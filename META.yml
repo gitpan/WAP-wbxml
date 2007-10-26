@@ -1,13 +1,16 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         WAP-wbxml
-version:      1.10
-version_from: wbxml.pm
-installdirs:  site
-requires:
+--- #YAML:1.0
+name:                WAP-wbxml
+version:             1.11
+abstract:            Binarization of XML file used by Wireless Application Protocol
+license:             ~
+generated_by:        ExtUtils::MakeMaker version 6.3201
+distribution_type:   module
+requires:     
     Data::Dumper:                  0
     I18N::Charset:                 1.15
     XML::DOM:                      1.25
-
-distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.17
+meta-spec:
+    url:     http://module-build.sourceforge.net/META-spec-v1.2.html
+    version: 1.2
+author:
+    - Francois PERRAD (francois.perrad@gadz.org)

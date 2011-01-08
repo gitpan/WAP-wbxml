@@ -4,7 +4,7 @@ package WAP::wbxml;
 use strict;
 use warnings;
 
-our $VERSION = '1.11';
+our $VERSION = '1.12';
 
 =head1 NAME
 
@@ -380,11 +380,11 @@ sub compileAttributeValues {
     while (1) {
         ($attr, $start, $end) = $self->{rulesApp}->getAttrValue($value, $self->{attrCodepage});
         last unless ($attr);
-        $self->compilePreserveStringI($start) if ($start);
+        $self->compilePreserveStringI($start) if (defined $start);
         $self->compileAttributeExtToken($attr->{ext_token});
         $value = $end;
     }
-    $self->compilePreserveStringI($start) if ($start);
+    $self->compilePreserveStringI($start) if (defined $start);
 }
 
 sub compileProcessingInstruction {
@@ -401,7 +401,7 @@ sub compileProcessingInstruction {
         $self->putb('body', LITERAL);
         $self->compilePreserveStringT($target);
     }
-    if ($data) {
+    if (defined $data) {
         $self->compileAttributeValues($data);
     }
     $self->putb('body', _END);
@@ -607,7 +607,7 @@ sub compileBody {
 sub compileCharSet {
     my $self = shift;
     my ($encoding) = @_;
-    if ($encoding) {
+    if (defined $encoding) {
         eval "use I18N::Charset";
         die $@ if ($@);
         my $mib = charset_name_to_mib($encoding);
@@ -723,7 +723,7 @@ wbxmlc, WAP::SAXDriver::wbxml
 
 =head1 COPYRIGHT
 
-(c) 2000-2007 Francois PERRAD, France.
+(c) 2001-2011 Francois PERRAD, France.
 
 This program (WAP::wbxml.pm and the internal DTD of wbrules.xml) is distributed
 under the terms of the Artistic Licence.

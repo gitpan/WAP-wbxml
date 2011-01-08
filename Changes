@@ -1,5 +1,9 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.12  Sat Jan  8 11:30:00 2011
+	- fix RT#64586 (thanks to Jason Simpson):
+		WAP::wbxml converts attribute values of "0" to "" in compileAttributeValues()
+
 1.11  Fri Oct 26 08:30:00 2007
 	- some Perl Best Practices
 

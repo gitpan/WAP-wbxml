@@ -16,7 +16,7 @@ Description:
 
 Prerequisites:
 --------------
-    This module needs Data::Dumper, XML::DOM modules and I18N::Charset.
+    This module needs XML::DOM modules and I18N::Charset.
 
 Build/Installation:
 -------------------
@@ -24,8 +24,5 @@ Build/Installation:
 	$ perl Makefile.PL
 	$ make
 	$ make install
-
-    Under UNIX, run 'wbxmlc' one time before leaving root session. 
-    (creation of WAP/wap.wbrules.pl)
 
 Send bug reports, comments and suggestions to francois.perrad@gadz.org

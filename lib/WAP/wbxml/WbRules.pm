@@ -554,12 +554,16 @@ sub Load {
             my $d = Data::Dumper->new([$rules], [qw($rules)]);
 #            $d->Indent(1);
             $d->Indent(0);
-            open my $PERSISTANCE, '>', $persistance;
-            print $PERSISTANCE "# This file is generated. DO NOT modify it.\n";
-            print $PERSISTANCE "# From file : ",$config,"\n";
-            print $PERSISTANCE "# Generation date : ",POSIX::ctime(time());
-            print $PERSISTANCE $d->Dump();
-            close $PERSISTANCE;
+            if (open my $PERSISTANCE, '>', $persistance) {
+                print $PERSISTANCE "# This file is generated. DO NOT modify it.\n";
+                print $PERSISTANCE "# From file : ",$config,"\n";
+                print $PERSISTANCE "# Generation date : ",POSIX::ctime(time());
+                print $PERSISTANCE $d->Dump();
+                close $PERSISTANCE;
+            }
+            else {
+                warn "cannot open '$persistance': $!\n";
+            }
         }
         else {
             $WAP::wbxml::WbRules::rules = new WAP::wbxml::WbRules(q{});

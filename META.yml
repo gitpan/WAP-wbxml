@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               WAP-wbxml
-version:            1.12
+version:            1.13
 abstract:           Binarization of XML file used by Wireless Application Protocol
 author:
     - Francois PERRAD (francois.perrad@gadz.org)
@@ -11,7 +11,6 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    Data::Dumper:   0
     I18N::Charset:  1.15
     XML::DOM:       1.25
 no_index:

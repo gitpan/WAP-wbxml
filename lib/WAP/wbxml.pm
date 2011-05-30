@@ -4,7 +4,7 @@ package WAP::wbxml;
 use strict;
 use warnings;
 
-our $VERSION = '1.12';
+our $VERSION = '1.13';
 
 =head1 NAME
 
@@ -82,6 +82,8 @@ use constant HAS_ATTR       => 0x80;
 
 Create a instance of WBinarizer for a specified kind of DTD.
 
+If PublicId is undefined, the first found rules are used.
+
 If the DTD is not known in the rules, default rules are used.
 
 =cut
@@ -94,10 +96,16 @@ sub new {
     my ($rules, $publicid) = @_;
     $self->{publicid} = $publicid;
     $self->{rules} = $rules;
-    $self->{rulesApp} = $rules->{App}->{$publicid};
-    unless ($self->{rulesApp}) {
-        $self->{rulesApp} = $rules->{DefaultApp};
-        warn "Using default rules.\n";
+    if ($publicid) {
+        $self->{rulesApp} = $rules->{App}->{$publicid};
+        unless ($self->{rulesApp}) {
+            $self->{rulesApp} = $rules->{DefaultApp};
+            warn "Using default rules.\n";
+        }
+    }
+    else {
+        my ($val) = values %{$rules->{App}};
+        $self->{rulesApp} = $val;
     }
     $self->{skipDefault} = $self->{rulesApp}->{skipDefault};
     $self->{variableSubs} = $self->{rulesApp}->{variableSubs};
@@ -626,7 +634,10 @@ sub compileCharSet {
 
 sub compilePublicId {
     my $self = shift;
-    if (exists $self->{rules}->{PublicIdentifiers}->{$self->{publicid}}) {
+    if (! $self->{publicid}) {
+        $self->putmb('header', 1);
+    }
+    elsif (exists $self->{rules}->{PublicIdentifiers}->{$self->{publicid}}) {
         my $publicid = $self->{rules}->{PublicIdentifiers}->{$self->{publicid}};
         $self->putmb('header', $publicid);
     }

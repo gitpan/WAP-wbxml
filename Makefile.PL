@@ -8,7 +8,6 @@ WriteMakefile(
     'PREREQ_PM'     => {
                         'XML::DOM'      => '1.25',
                         'I18N::Charset' => '1.15',
-                        'Data::Dumper'  => 0,
     },
     'EXE_FILES'     => ['bin/wbxmlc'],
     'AUTHOR'        => "Francois PERRAD (francois.perrad\@gadz.org)",
@@ -21,12 +20,18 @@ WriteMakefile(
 sub MY::install {
     package MY;
     my $script = shift->SUPER::install(@_);
-    $script =~ s/install :: (.*)$/install :: $1 compile_rules/m;
+    $script =~ s/install :: (.*)$/install :: all compile_rules $1/m;
     $script .= <<"INSTALL";
 
 compile_rules :
-\twbxmlc samples/personal.xml
+\t\$(PERLRUNINST) \$(INST_SCRIPT)/wbxmlc -p \$(INST_LIB)/WAP/wbxml/wap.wbrules.xml samples/personal.xml
 \t\$(RM_F) samples/personal.wbxml
+\t\$(PERLRUNINST) \$(INST_SCRIPT)/wbxmlc -p \$(INST_LIB)/WAP/wbxml/wv.wbrules.xml samples/personal.xml
+\t\$(RM_F) samples/personal.wbxml
+\t\$(PERLRUNINST) \$(INST_SCRIPT)/wbxmlc -p \$(INST_LIB)/WAP/wbxml/syncml.wbrules.xml samples/personal.xml
+\t\$(RM_F) samples/personal.wbxml
+\t\$(PERLRUNINST) \$(INST_SCRIPT)/wbxmlc -p \$(INST_LIB)/WAP/wbxml/activesync.wbrules.xml samples/airsync.xml
+\t\$(RM_F) samples/airsync.wbxml
 
 INSTALL
 

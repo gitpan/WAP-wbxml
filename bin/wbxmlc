@@ -26,8 +26,9 @@ my $doc = $parser->parsefile($infile);
 
 my $xml_decl = $doc->getXMLDecl();                      # not in DOM Spec
 my $encoding = $xml_decl ? $xml_decl->getEncoding() : undef;
-my $publicid = $doc->getDoctype()->getPubId();          # not in DOM Spec
-die "no PublicId.\n" unless ($publicid);
+my $publicid;
+my $dtd = $doc->getDoctype();                           # not in DOM Spec
+$publicid = $dtd->getPubId() if $dtd;                   # not in DOM Spec
 
 my $rules = WAP::wbxml::WbRules::Load($opts{p});
 my $wbxml = new WAP::wbxml($rules, $publicid);
@@ -76,8 +77,6 @@ according the specification :
 WAP - Wireless Application Protocol /
 Binary XML Content Format Specification /
 Version 1.3 WBXML (15th May 2000 Approved)
-
-The XML input file must refere to a DTD with a public identifier.
 
 The file WAP/wbrules.xml configures this tool for all known DTD.
 

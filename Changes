@@ -1,5 +1,10 @@
 Revision history for Perl extension WAP::wbxml.
 
+1.13  Mon May 30 15:30:00 2011
+	- wbxml.pm : handle unknown PublicId
+	- activesync.wbrules.xml : new file (thanks to Viacheslav Tykhanovskyi)
+	- Makefile.PL : fix custom install
+
 1.12  Sat Jan  8 11:30:00 2011
 	- fix RT#64586 (thanks to Jason Simpson):
 		WAP::wbxml converts attribute values of "0" to "" in compileAttributeValues()

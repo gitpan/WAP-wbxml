@@ -13,6 +13,7 @@ test:
 	wbxmlc basic_10.html
 	wbxmlc strict_10.html
 	wbxmlc personal.xml
+	wbxmlc -p ../lib/WAP/wbxml/activesync.wbrules.xml airsync.xml
 
 out:
 	wbxmld sample_10.wmlc		sample_wml10.out
@@ -28,4 +29,5 @@ out:
 	wbxmld basic_10.htmlc		basic_10.out
 	wbxmld strict_10.htmlc		strict_10.out
 	wbxmld personal.wbxml		personal.out
+	wbxmld -p ../../wap-saxdriver-wbxml/lib/WAP/SAXDriver/wbxml/activesync.wbrules2.pl airsync.wbxml	airsync.out
 
